@@ -2,10 +2,11 @@
 
 /**
  * Plugin Name: Share
+ * Plugin URI: https://github.com/artcomventure/wordpress-plugin-share
  * Description: Spread your content over social networks.
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: artcom venture GmbH
- * Author URI: http://www.artcomventure.de/
+ * Author URI: http://www.artcom-venture.de/
  */
 
 if ( ! defined( 'SHARE_PLUGIN_URL' ) ) {
@@ -229,6 +230,7 @@ foreach ( scandir( SHARE_PLUGIN_DIR . '/inc' ) as $file ) {
 	if ( ! preg_match( '/shortcode\..+\.php/', $file ) ) {
 		continue;
 	}
+
 	require SHARE_PLUGIN_DIR . '/inc/' . $file;
 }
 
