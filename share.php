@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Share
  * Description: Spread your content over social networks.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: artcom venture GmbH
  * Author URI: http://www.artcomventure.de/
  */
