@@ -1,0 +1,15 @@
+#share__socials.ui-sortable {
+  margin-left: -10px;
+
+  th {
+    padding-left: 10px;
+  }
+
+  tr {
+    cursor: move;
+
+    &:hover {
+      background-color: rgba(#000, 0.05);
+    }
+  }
+}
