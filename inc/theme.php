@@ -185,11 +185,11 @@ function get_share_links( $url = '', $cache = TRUE ) {
 		}
 
 		// share link markup
-		$share = $share['prefix'];
-		$share .= '<a class="share__link share__' . sanitize_title( $network ) . '" href=\''
-		         . ( ! empty( $share['query'] ) ? add_query_arg( $share['query'], $share['href'] ) : $share['href'] ) . '\'>';
-		$share .= '<span>' . sprintf( $share['text'], $share['count'] ) . '</span>';
-		$share .= '</a>' . $share['suffix'];
+		$share = $share['prefix']
+		         . '<a class="share__link share__' . sanitize_title( $network ) . '" href=\''
+		         . ( ! empty( $share['query'] ) ? add_query_arg( $share['query'], $share['href'] ) : $share['href'] ) . '\'>'
+		         . '<span>' . sprintf( $share['text'], $share['count'] ) . '</span>'
+		         . '</a>' . $share['suffix'];
 	}
 
 	if ( empty( $networks ) ) {

@@ -4,6 +4,11 @@
 
 * default share list styles
 
+## 1.0.4 - 2016-03-10 [YANKED]
+**Fixed**
+
+* theme share links
+
 ## 1.0.3 - 2016-03-10
 **Added**
 

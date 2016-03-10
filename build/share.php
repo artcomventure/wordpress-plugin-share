@@ -4,7 +4,7 @@
  * Plugin Name: Share
  * Plugin URI: https://github.com/artcomventure/wordpress-plugin-share
  * Description: Spread your content over social networks and more (Facebook, Twitter, Google+, Pinterest, Tumblr, Whatsapp, SMS, Email).
- * Version: 1.0.3
+ * Version: 1.0.4
  * Text Domain: share
  * Author: artcom venture GmbH
  * Author URI: http://www.artcom-venture.de/
