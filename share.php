@@ -4,7 +4,7 @@
  * Plugin Name: Share
  * Plugin URI: https://github.com/artcomventure/wordpress-plugin-share
  * Description: Spread your content over social networks and more (Facebook, Twitter, Google+, Pinterest, Tumblr, Whatsapp, SMS, Email).
- * Version: 1.0.4
+ * Version: 1.0.5
  * Text Domain: share
  * Author: artcom venture GmbH
  * Author URI: http://www.artcom-venture.de/
@@ -228,11 +228,29 @@ foreach ( scandir( SHARE_PLUGIN_DIR . '/inc' ) as $file ) {
 // ... just in case ;)
 add_filter( 'site_transient_update_plugins', 'share__site_transient_update_plugins' );
 function share__site_transient_update_plugins( $value ) {
-	if ( isset( $value->response[ plugin_basename( __FILE__ ) ] ) ) {
-		unset( $value->response[ plugin_basename( __FILE__ ) ] );
+	$plugin_file = plugin_basename( __FILE__ );
+
+	if ( isset( $value->response[ $plugin_file ] ) ) {
+		unset( $value->response[ $plugin_file ] );
 	}
 
 	return $value;
+}
+
+/**
+ * Change details link to GitHub repository.
+ */
+add_filter( 'plugin_row_meta', 'share__plugin_row_meta', 10, 2 );
+function share__plugin_row_meta( $links, $file ) {
+	if ( plugin_basename( __FILE__ ) == $file ) {
+		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $file );
+
+		$links[2] = '<a href="' . $plugin_data['PluginURI'] . '">' . __( 'Plugin-Seite aufrufen' ) . '</a>';
+
+		$links[] = '<a href="' . admin_url( 'options-general.php?page=share-settings' ) . '">' . __( 'Settings' ) . '</a>';
+	}
+
+	return $links;
 }
 
 /**
@@ -244,5 +262,5 @@ function share_deactivate() {
 		delete_option( $option );
 	}
 
-	delete_metadata( 'post', null, '_shares', '', true );
+	delete_metadata( 'post', NULL, '_shares', '', TRUE );
 }

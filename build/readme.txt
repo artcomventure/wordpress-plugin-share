@@ -71,6 +71,11 @@ _We test our plugin through its paces, but we advise you to take all safety prec
 
 * default share list styles
 
+= 1.0.5 - 2016-03-10 =
+**Added**
+
+* ... and changed 'Plugins' screen links
+
 == 1.0.4 - 2016-03-10 [YANKED] ==
 **Fixed**
 
