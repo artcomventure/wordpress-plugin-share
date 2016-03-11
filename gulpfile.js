@@ -14,6 +14,8 @@ var gulp = require( 'gulp' ),
     // beautify css
     csscomb = require( 'gulp-csscomb' ),
     replace = require( 'gulp-replace' ),
+    // deletion
+    del = require( 'del' ),
     // concat files
     concat = require( 'gulp-concat' ),
 
@@ -103,9 +105,13 @@ gulp.task( 'js', function() {
 } );
 
 /**
- * Create build.
+ * Clear build/ folder.
  */
-gulp.task( 'build', ['css', 'js'], function() {
+gulp.task( 'clear:build', function() {
+    del.sync( 'build/**/*' );
+} );
+
+gulp.task( 'build', ['clear:build', 'css', 'js'], function() {
     // collect all needed files
     gulp.src( [
         '**/*',

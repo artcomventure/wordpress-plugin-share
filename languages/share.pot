@@ -15,6 +15,12 @@ msgstr ""
 "Language: de_DE\n"
 "X-Generator: Poedit 1.7.5\n"
 
+msgid "Share"
+msgstr ""
+
+msgid "Spread your content over social networks and more (Facebook, Twitter, Google+, Pinterest, Tumblr, Whatsapp, SMS, Email)."
+msgstr ""
+
 msgid "%s Settings"
 msgstr ""
 

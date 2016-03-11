@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.1 - 2016-03-11
+**Added**
+
+* German translations
+* Gulp del for clearing build folder before building it again
+* Changed 'Plugins' screen detail link
+
 ## 1.1.0 - 2016-03-11
 **Added**
 
@@ -13,17 +20,17 @@
 ## 1.0.5 - 2016-03-10
 **Added**
 
-* ... and changed 'Plugins' screen links
+* ... and **changed** 'Plugins' screen links
 
 ## 1.0.4 - 2016-03-10 [YANKED]
 **Fixed**
 
-* theme share links
+* Theme share links
 
 ## 1.0.3 - 2016-03-10
 **Added**
 
-* gulp
+* Gulp
 * build/
 * README.md and CHANGELOG.md
 
