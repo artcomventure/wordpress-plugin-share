@@ -181,7 +181,7 @@ function get_share_links( $url = '', $cache = TRUE ) {
 				'query' => array(
 					'u' => $url,
 				),
-			);
+			) + $share;
 		}
 
 		// share link markup

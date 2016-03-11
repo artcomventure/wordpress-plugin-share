@@ -1,0 +1,44 @@
+$colors: (
+        'share__link': #007acc, // default
+        'facebook': #6D84B4,
+        'twitter': #38AEEA,
+        'google': #D84C38,
+        'whatsapp': #43D854,
+        'pinterest': #C21E2A,
+        'tumblr': #36465d
+);
+
+ul.share {
+  margin: .86em -.14em;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+
+  li {
+    margin: .14em;
+  }
+
+  a {
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    padding: .28em .56em;
+    border-radius: 2px;
+
+    @each $network, $color in $colors {
+      @if $network != 'share__link' {
+        $network: 'share__' + $network
+      }
+
+      &.#{$network} {
+        background-color: $color;
+
+        &:hover {
+          background-color: darken($color, 10%);
+        }
+      }
+    }
+  }
+}

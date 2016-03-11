@@ -4,7 +4,7 @@
  * Plugin Name: Share
  * Plugin URI: https://github.com/artcomventure/wordpress-plugin-share
  * Description: Spread your content over social networks and more (Facebook, Twitter, Google+, Pinterest, Tumblr, Whatsapp, SMS, Email).
- * Version: 1.0.5
+ * Version: 1.1.0
  * Text Domain: share
  * Author: artcom venture GmbH
  * Author URI: http://www.artcom-venture.de/
@@ -49,8 +49,8 @@ function share__admin_menu() {
  * Settings page markup.
  */
 function share_settings_page() {
-	wp_enqueue_script( 'share-admin', SHARE_PLUGIN_URL . 'js/share.admin.js', array( 'jquery-ui-sortable' ), '20160203' );
-	wp_enqueue_style( 'share-admin', SHARE_PLUGIN_URL . 'css/share.admin.css', array(), '20160203' );
+	wp_enqueue_script( 'share-admin', SHARE_PLUGIN_URL . 'js/admin.js', array( 'jquery-ui-sortable' ), '20160203' );
+	wp_enqueue_style( 'share-admin', SHARE_PLUGIN_URL . 'css/admin.css', array(), '20160203' );
 
 	include( SHARE_PLUGIN_DIR . 'inc/settings.php' );
 }
@@ -58,9 +58,10 @@ function share_settings_page() {
 /**
  * Enqueue scripts and styles.
  */
-add_action( 'admin_enqueue_scripts', 'share__admin_enqueue_scripts' );
-function share__admin_enqueue_scripts() {
+add_action( 'wp_enqueue_scripts', 'share_enqueue_scripts' );
+function share_enqueue_scripts() {
 	wp_enqueue_script( 'share', SHARE_PLUGIN_URL . 'js/share.min.js', array(), '20160202' );
+	wp_enqueue_style( 'share', SHARE_PLUGIN_URL . 'css/share.min.css', array(), '20160311' );
 }
 
 /**

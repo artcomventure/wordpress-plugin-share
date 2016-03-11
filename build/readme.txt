@@ -67,9 +67,15 @@ _We test our plugin through its paces, but we advise you to take all safety prec
 
 == Changelog ==
 
-= Unreleased =
+= 1.1.0 - 2016-03-11 =
+**Added**
 
-* default share list styles
+* Default styles
+* .csscomb.json
+
+**Fixed**
+
+* Facebook link text for non app use
 
 = 1.0.5 - 2016-03-10 =
 **Added**
