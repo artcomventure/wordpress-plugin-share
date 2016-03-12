@@ -5,10 +5,12 @@
  */
 add_action( 'wp_head', 'share__wp_head' );
 function share__wp_head() {
-	// todo: extend for none post pages
+	$post_types = share_get_option( 'post_types' );
 
-	if ( ! $post = get_post() ) {
-		return;
+	global $more;
+
+	if ( ! $more || ! ( $post = get_post() ) || ! $post_types[ $post->post_type ] ) {
+		return '';
 	}
 
 	$meta = array(
@@ -29,6 +31,7 @@ function share__wp_head() {
 
 	// let others change meta data
 	$meta = apply_filters( 'share_meta', array_filter( $meta ) );
+	$meta = array_filter( $meta );
 
 	if ( ! empty( $meta['image'] ) ) {
 		foreach ( array( 'og:image', 'twitter:image:src' ) as $property ) {

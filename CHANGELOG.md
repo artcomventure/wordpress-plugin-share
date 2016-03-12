@@ -1,5 +1,26 @@
 # Changelog
 
+## Unreleased
+
+* allow share links in ´!$more´ view
+* Add more networks
+
+## 1.2.0 - 2016-03-12
+**Added**
+
+* Linkedin
+* Network's favicon
+* More apply_filters() to interact with code
+* Default CSS
+
+**Changed**
+
+* Refactor backend (more settings)
+
+**Removed**
+
+* Twitter share count (depricated since 2015-11-20 https://blog.twitter.com/2015/hard-decisions-for-a-sustainable-platform)
+
 ## 1.1.1 - 2016-03-11
 **Added**
 

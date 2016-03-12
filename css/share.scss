@@ -1,12 +1,5 @@
-$colors: (
-        'share__link': #007acc, // default
-        'facebook': #6D84B4,
-        'twitter': #38AEEA,
-        'google': #D84C38,
-        'whatsapp': #43D854,
-        'pinterest': #C21E2A,
-        'tumblr': #36465d
-);
+@import "./favicons";
+@import "./colors";
 
 ul.share {
   margin: .86em -.14em;
@@ -37,6 +30,30 @@ ul.share {
 
         &:hover {
           background-color: darken($color, 10%);
+        }
+      }
+    }
+
+    @each $network, $url in $favicons {
+      @if $network != 'share__link' {
+        $network: 'share__' + $network
+      }
+
+      &.#{$network} {
+        position: relative;
+        padding-left: calc(16px + 7px + .28em);
+
+        &:before {
+          content: "";
+          text-align: center;
+          position: absolute;
+          top: 50%;
+          left: 7px;
+          transform: translate(0, -50%);
+          width: 16px;
+          height: 16px;
+          background: url(https://www.google.com/s2/favicons?domain=#{$url}) no-repeat scroll center center transparent;
+          background-size: cover;
         }
       }
     }

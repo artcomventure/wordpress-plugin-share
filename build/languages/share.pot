@@ -15,9 +15,6 @@ msgstr ""
 "Language: de_DE\n"
 "X-Generator: Poedit 1.7.5\n"
 
-msgid "Share"
-msgstr ""
-
 msgid "Spread your content over social networks and more (Facebook, Twitter, Google+, Pinterest, Tumblr, Whatsapp, SMS, Email)."
 msgstr ""
 
@@ -27,14 +24,56 @@ msgstr ""
 msgid "Show counts"
 msgstr ""
 
-msgid "Show number of shares right next to button."
+msgid "Get and show number of shares."
 msgstr ""
 
-msgid "enable"
+msgid "Unfortunately this can't be provided for all share buttons. For detailed information see network section below."
 msgstr ""
 
-msgid "Found on %s. Have a look!"
+msgid "Enable/Disable share buttons for post types"
+msgstr ""
+
+msgid "Enable"
+msgstr ""
+
+msgid "Enable/Disable and order share buttons"
+msgstr ""
+
+msgid "To change the order of the share links just drag'n'drop the <i>tabs</i> on the left in the desired order."
+msgstr ""
+
+msgid "Let your content be shared via <strong>%1$s</strong>."
+msgstr ""
+
+msgid "Let your content be shared."
+msgstr ""
+
+msgid "Only available on mobile devices."
+msgstr ""
+
+msgid "No share count available."
+msgstr ""
+
+msgid "Found on %1$s. Have a look!"
+msgstr ""
+
+msgid "Subject"
 msgstr ""
 
 msgid "Email"
+msgstr ""
+
+msgid "Share buttons"
+msgstr ""
+
+msgid "Share text"
+msgstr ""
+
+msgid "Patterns"
+msgstr ""
+
+msgid "URL of the page to share"
+msgstr ""
+
+msgid "Load default CSS"
 msgstr ""

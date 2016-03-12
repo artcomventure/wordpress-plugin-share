@@ -4,7 +4,7 @@
  * Plugin Name: Share
  * Plugin URI: https://github.com/artcomventure/wordpress-plugin-share
  * Description: Spread your content over social networks and more (Facebook, Twitter, Google+, Pinterest, Tumblr, Whatsapp, SMS, Email).
- * Version: 1.1.1
+ * Version: 1.2.0
  * Text Domain: share
  * Author: artcom venture GmbH
  * Author URI: http://www.artcom-venture.de/
@@ -19,49 +19,16 @@ if ( ! defined( 'SHARE_PLUGIN_DIR' ) ) {
 }
 
 /**
- * Share settings options.
- *
- * @return array
- */
-function share_get_options() {
-	return array( 'share_counts', 'share_enabled', 'share_post_types' );
-}
-
-/**
- * Register settings options.
- */
-add_action( 'admin_init', 'share__admin_init' );
-function share__admin_init() {
-	foreach ( share_get_options() as $setting ) {
-		register_setting( 'share', $setting );
-	}
-}
-
-/**
- * Register share admin page.
- */
-add_action( 'admin_menu', 'share__admin_menu' );
-function share__admin_menu() {
-	add_options_page( __( 'Share', 'share' ), __( 'Share', 'share' ), 'manage_options', 'share-settings', 'share_settings_page' );
-}
-
-/**
- * Settings page markup.
- */
-function share_settings_page() {
-	wp_enqueue_script( 'share-admin', SHARE_PLUGIN_URL . 'js/admin.js', array( 'jquery-ui-sortable' ), '20160203' );
-	wp_enqueue_style( 'share-admin', SHARE_PLUGIN_URL . 'css/admin.css', array(), '20160203' );
-
-	include( SHARE_PLUGIN_DIR . 'inc/settings.php' );
-}
-
-/**
  * Enqueue scripts and styles.
  */
 add_action( 'wp_enqueue_scripts', 'share_enqueue_scripts' );
 function share_enqueue_scripts() {
 	wp_enqueue_script( 'share', SHARE_PLUGIN_URL . 'js/share.min.js', array(), '20160202' );
-	wp_enqueue_style( 'share', SHARE_PLUGIN_URL . 'css/share.min.css', array(), '20160311' );
+
+	// load default styles
+	if ( share_get_option( 'css' ) ) {
+		wp_enqueue_style( 'share', SHARE_PLUGIN_URL . 'css/share.css', array(), '20160312' );
+	}
 }
 
 /**
@@ -73,40 +40,6 @@ function share__after_setup_theme() {
 }
 
 /**
- * Collect all possible networks.
- */
-function share_networks() {
-	$networks = array(
-		'Facebook' => 0,
-		'Pinterest' => 0,
-		'Twitter' => 0,
-		'Tumblr' => 0,
-		'Google+' => 0,
-		'Email' => 0,
-		'Whatsapp' => 0,
-		'SMS' => 0,
-	);
-
-	// let others change/extend networks
-	$networks = apply_filters( 'share_networks', $networks );
-
-	// get config
-	if ( ! $enabled = get_option( 'share_enabled', array() ) ) {
-		$enabled = array();
-	}
-
-	// check if networks are still supported
-	foreach ( $enabled as $network => $status ) {
-		if ( ! array_key_exists( $network, $networks ) ) {
-			unset( $networks[ $network ] );
-		}
-	}
-
-	// merge defaults
-	return $enabled + $networks;
-}
-
-/**
  * Get all share counts through social network APIs.
  *
  * @param string $url
@@ -115,12 +48,22 @@ function share_networks() {
  * @return mixed
  */
 function share_counts( $url = '', $cache = TRUE ) {
-	if ( empty( $url ) ) {
-		$url = get_the_permalink();
+	$post = get_post();
+
+	if ( ! $url ) {
+		if ( ! $url = get_the_permalink() ) {
+			$url = $post->guid;
+		}
 	}
 
-	$post = get_post();
+	$url = urldecode( $url );
+
 	$networks = share_networks();
+
+	// string to boolean
+	if ( ! is_bool( $cache ) ) {
+		$cache = ( ! in_array( strtolower( $cache ), array( 'false', '0' ) ) ? TRUE : FALSE );
+	}
 
 	if ( $cache
 	     && ( $shares = get_metadata( 'post', $post->ID, '_shares', TRUE ) )
@@ -136,6 +79,7 @@ function share_counts( $url = '', $cache = TRUE ) {
 
 	$shares = array(
 		'_overall' => 0,
+		'_updated' => time(),
 	);
 
 	$ch = curl_init();
@@ -143,68 +87,116 @@ function share_counts( $url = '', $cache = TRUE ) {
 	curl_setopt( $ch, CURLOPT_HTTPHEADER, array( 'Content-type: application/json' ) );
 
 	foreach ( $networks as $network => $enabled ) {
-		$args = array(
-			'cURL' => "",
-			'count' => '',
-		);
-
 		switch ( $network ) {
 			default:
+				$api = array();
 				break;
 
 			case 'Facebook':
-				$args['cURL'] = "http://api.facebook.com/method/links.getStats?urls=$url&format=json";
-				$args['count'] = '[0]->total_count;';
-				break;
-
-			case 'Twitter':
-				$args['cURL'] = "http://cdn.api.twitter.com/1/urls/count.json?url=$url";
-				$args['count'] = '->count;';
+				$api = array(
+					'url' => 'http://api.facebook.com/method/links.getStats?' . build_query( array(
+							'urls' => $url,
+							'format' => 'json',
+						) ),
+					'callback' => function ( $json ) {
+						return $json[0]->total_count;
+					}
+				);
 				break;
 
 			case 'Pinterest':
-				$args['cURL'] = "http://api.pinterest.com/v1/urls/count.json?callback=json_decode&url=$url";
-				$args['count'] = '->count;';
+				$api = array(
+					'url' => "http://api.pinterest.com/v1/urls/count.json?callback=json_decode&url={$url}",
+					'callback' => function ( $json ) {
+						return $json->count;
+					}
+				);
+				break;
+
+			case 'Linkedin':
+				$api = array(
+					'url' => "http://www.linkedin.com/countserv/count/share?url={$url}&format=json",
+					'callback' => function ( $json ) {
+						return $json->count;
+					}
+				);
 				break;
 
 			case 'Google+':
-				$args['cURL'] = "https://clients6.google.com/rpc";
-				curl_setopt( $ch, CURLOPT_POST, 1 );
-				curl_setopt( $ch, CURLOPT_POSTFIELDS, '[{"method":"pos.plusones.get","id":"p","params":{"nolog":true,"id":"' . $url . '","source":"widget","userId":"@viewer","groupId":"@self"},"jsonrpc":"2.0","key":"p","apiVersion":"v1"}]' );
-				$args['count'] = '[0]->result->metadata->globalCounts->count;';
+				$api = array(
+					'method' => 'POST',
+					'url' => 'https://clients6.google.com/rpc',
+					'payload' => json_encode( array(
+						array(
+							'method' => 'pos.plusones.get',
+							'id' => 'p',
+							'params' => array(
+								'nolog' => TRUE,
+								'id' => $url,
+								'source' => 'widget',
+								'userId' => '@viewer',
+								'groupId' => '@self'
+							),
+							'jsonrpc' => '2.0',
+							'key' => 'p',
+							'apiVersion' => 'v1',
+						)
+					) ),
+					'callback' => function ( $json ) {
+						return $json[0]->result->metadata->globalCounts->count;
+					}
+				);
 				break;
 		}
 
 		// let others change/extend curl action
-		$args = apply_filters( 'share_count', $network, $args );
+		$api = apply_filters( 'share_count', $api, $network );
+		$api = apply_filters( 'share_count', $api, $network );
 
-		if ( ! empty( $args['cURL'] ) ) {
-			try {
-				curl_setopt( $ch, CURLOPT_URL, $args['cURL'] );
-				$shares[ $network ] = curl_exec( $ch );
+		// merge defaults
+		$api += array(
+			'method' => 'GET',
+			'url' => '',
+			"callback" => function ( $response ) {
+				return NULL;
+			},
+		);
 
-				// get rid of callback function
-				// we just need plain json
-				$shares[ $network ] = preg_replace( '/^.*\((.*)\)$/', '\\1', $shares[ $network ] );;
-				$shares[ $network ] = json_decode( $shares[ $network ] );
+		// set curl method
+		if ( $api['method'] == 'POST' ) {
+			curl_setopt( $ch, CURLOPT_POST, 1 );
 
-				// get count from json response
-				// todo: check if is there's a better way then 'eval'
-				eval( '$shares[$network] = $shares[$network]' . $args['count'] );
-			} catch ( Exception $e ) {
-				$shares[ $network ] = 0;
+			if ( isset( $api['payload'] ) ) {
+				curl_setopt( $ch, CURLOPT_POSTFIELDS, $api['payload'] );
+			}
+//		} else {
+//			curl_setopt( $ch, CURLOPT_HTTPGET, 1 );
+		}
+
+		curl_setopt( $ch, CURLOPT_URL, $api['url'] );
+
+		if ( $shares[ $network ] = curl_exec( $ch ) ) {
+			// get rid of callback function
+			// we just need plain json
+			$shares[ $network ] = preg_replace( '/^[a-z_]*\((.*)\)$/', '\\1', $shares[ $network ] );
+
+			if ( $json = json_decode( $shares[ $network ] ) ) {
+				$shares[ $network ] = $json;
 			}
 
-			$shares['_overall'] += $shares[ $network ];
-		} // no api available
-		else {
+			try {
+				// get counts
+				$shares[ $network ] = $api['callback']( $shares[ $network ] );
+				$shares['_overall'] += $shares[ $network ];
+			} catch ( Exception $e ) {
+				$shares[ $network ] = NULL;
+			}
+		} else {
 			$shares[ $network ] = NULL;
 		}
 	}
 
 	curl_close( $ch );
-
-	$shares['_updated'] = time();
 
 	// save data to post
 	update_metadata( 'post', $post->ID, '_shares', $shares );
@@ -218,6 +210,8 @@ include( SHARE_PLUGIN_DIR . '/inc/meta.php' );
 include( SHARE_PLUGIN_DIR . '/inc/widgets.php' );
 // theme share links
 include( SHARE_PLUGIN_DIR . '/inc/theme.php' );
+// options
+include( SHARE_PLUGIN_DIR . '/inc/options.php' );
 // auto include shortcodes
 foreach ( scandir( SHARE_PLUGIN_DIR . '/inc' ) as $file ) {
 	if ( preg_match( '/shortcode\..+\.php/', $file ) ) {
@@ -259,9 +253,7 @@ function share__plugin_row_meta( $links, $file ) {
  */
 register_deactivation_hook( __FILE__, 'share_deactivate' );
 function share_deactivate() {
-	foreach ( share_get_options() as $option ) {
-		delete_option( $option );
-	}
+	delete_option( 'share' );
 
 	delete_metadata( 'post', NULL, '_shares', '', TRUE );
 }

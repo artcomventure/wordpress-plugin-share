@@ -34,27 +34,27 @@ ul.share a.share__link:hover {
 }
 
 ul.share a.share__facebook {
-    background-color: #6d84b4;
+    background-color: #4862a3;
 }
 
 ul.share a.share__facebook:hover {
-    background-color: #516a9d;
+    background-color: #384d80;
 }
 
 ul.share a.share__twitter {
-    background-color: #38aeea;
+    background-color: #52aaef;
 }
 
 ul.share a.share__twitter:hover {
-    background-color: #1797d8;
+    background-color: #2393eb;
 }
 
 ul.share a.share__google {
-    background-color: #d84c38;
+    background-color: #d74337;
 }
 
 ul.share a.share__google:hover {
-    background-color: #b93724;
+    background-color: #b72f25;
 }
 
 ul.share a.share__whatsapp {
@@ -66,11 +66,11 @@ ul.share a.share__whatsapp:hover {
 }
 
 ul.share a.share__pinterest {
-    background-color: #c21e2a;
+    background-color: #b90000;
 }
 
 ul.share a.share__pinterest:hover {
-    background-color: #961720;
+    background-color: #860000;
 }
 
 ul.share a.share__tumblr {
@@ -79,6 +79,134 @@ ul.share a.share__tumblr {
 
 ul.share a.share__tumblr:hover {
     background-color: #232e3d;
+}
+
+ul.share a.share__linkedin {
+    background-color: #009fe5;
+}
+
+ul.share a.share__linkedin:hover {
+    background-color: #007cb2;
+}
+
+ul.share a.share__facebook {
+    position: relative;
+    padding-left: calc(16px + 7px + .28em);
+}
+
+ul.share a.share__facebook:before {
+    position: absolute;
+    top: 50%;
+    left: 7px;
+    width: 16px;
+    height: 16px;
+    content: "";
+    -webkit-transform: translate(0, -50%);
+        -ms-transform: translate(0, -50%);
+            transform: translate(0, -50%);
+    text-align: center;
+    background: url(https://www.google.com/s2/favicons?domain=https://www.facebook.com/) no-repeat scroll center center transparent;
+    background-size: cover;
+}
+
+ul.share a.share__google {
+    position: relative;
+    padding-left: calc(16px + 7px + .28em);
+}
+
+ul.share a.share__google:before {
+    position: absolute;
+    top: 50%;
+    left: 7px;
+    width: 16px;
+    height: 16px;
+    content: "";
+    -webkit-transform: translate(0, -50%);
+        -ms-transform: translate(0, -50%);
+            transform: translate(0, -50%);
+    text-align: center;
+    background: url(https://www.google.com/s2/favicons?domain=https://plus.google.com/) no-repeat scroll center center transparent;
+    background-size: cover;
+}
+
+ul.share a.share__linkedin {
+    position: relative;
+    padding-left: calc(16px + 7px + .28em);
+}
+
+ul.share a.share__linkedin:before {
+    position: absolute;
+    top: 50%;
+    left: 7px;
+    width: 16px;
+    height: 16px;
+    content: "";
+    -webkit-transform: translate(0, -50%);
+        -ms-transform: translate(0, -50%);
+            transform: translate(0, -50%);
+    text-align: center;
+    background: url(https://www.google.com/s2/favicons?domain=https://www.linkedin.com/) no-repeat scroll center center transparent;
+    background-size: cover;
+}
+
+ul.share a.share__pinterest {
+    position: relative;
+    padding-left: calc(16px + 7px + .28em);
+}
+
+ul.share a.share__pinterest:before {
+    position: absolute;
+    top: 50%;
+    left: 7px;
+    width: 16px;
+    height: 16px;
+    content: "";
+    -webkit-transform: translate(0, -50%);
+        -ms-transform: translate(0, -50%);
+            transform: translate(0, -50%);
+    text-align: center;
+    background: url(https://www.google.com/s2/favicons?domain=https://www.pinterest.com/) no-repeat scroll center center transparent;
+    background-size: cover;
+}
+
+ul.share a.share__twitter {
+    position: relative;
+    padding-left: calc(16px + 7px + .28em);
+}
+
+ul.share a.share__twitter:before {
+    position: absolute;
+    top: 50%;
+    left: 7px;
+    width: 16px;
+    height: 16px;
+    content: "";
+    -webkit-transform: translate(0, -50%);
+        -ms-transform: translate(0, -50%);
+            transform: translate(0, -50%);
+    text-align: center;
+    background: url(https://www.google.com/s2/favicons?domain=https://twitter.com/) no-repeat scroll center center transparent;
+    background-size: cover;
+}
+
+ul.share a.share__whatsapp {
+    position: relative;
+    padding-left: calc(16px + 7px + .28em);
+}
+
+ul.share a.share__whatsapp:before {
+    position: absolute;
+    top: 50%;
+    left: 7px;
+    width: 16px;
+    height: 16px;
+    content: "";
+    -webkit-transform: translate(0, -50%);
+        -ms-transform: translate(0, -50%);
+            transform: translate(0, -50%);
+    text-align: center;
+    background: url(https://www.google.com/s2/favicons?domain=https://www.whatsapp.com/) no-repeat scroll center center transparent;
+    background-size: cover;
 }
 
 /*# sourceMappingURL=share.css.map */
