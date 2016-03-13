@@ -40,14 +40,31 @@ function share_default_text() {
 	return '[url]';
 }
 
-function share_patterns() {
+/**
+ * Replacement patterns.
+ *
+ * @param bool $description
+ *
+ * @return array
+ */
+function share_patterns( $description = FALSE ) {
+	$patterns = apply_filters( 'share_patterns', array(), $description );
+
+	// merge default
 	$patterns = array(
-		'url' => __( 'URL of the page to share', 'share' ),
+		'url' => get_the_permalink(),
+		'title' => get_the_title(),
 		'sitename' => get_bloginfo( 'sitename' ),
 		'siteurl' => get_bloginfo( 'siteurl' ),
-	);
+	) + $patterns;
 
-	return apply_filters( 'share_patterns', $patterns );
+	// replace dynamic value by its description
+	if ( $description ) {
+		$patterns['url'] = __( 'URL of the page to share', 'share' );
+		$patterns['title'] = __( 'Title of the page to share', 'share' );
+	}
+
+	return $patterns;
 }
 
 /**
@@ -146,7 +163,7 @@ function share_get_options( $option = '' ) {
 	// merge default
 	$share['networks'] += $networks;
 
-	// ...
+	// return specific option
 	if ( $option ) {
 		if ( isset( $share[ $option ] ) ) {
 			return $share[ $option ];
@@ -155,6 +172,7 @@ function share_get_options( $option = '' ) {
 		return NULL;
 	}
 
+	// return all options
 	return $share;
 }
 

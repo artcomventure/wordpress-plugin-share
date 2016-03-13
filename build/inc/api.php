@@ -8,8 +8,8 @@
  *
  * @return array
  */
-add_filter( 'share_link_NETWORK', 'hook__share_link_NETWORK', 10, 2 );
-function hook__share_link_NETWORK( $link, $url ) {
+add_filter( 'share_link_NETWORK', 'hook__share_link_NETWORK' );
+function hook__share_link_NETWORK( $link ) {
 	return $link;
 }
 
@@ -20,8 +20,8 @@ function hook__share_link_NETWORK( $link, $url ) {
  *
  * @return array
  */
-add_filter( 'share_link', 'hook__share_link', 10, 2 );
-function hook__share_link( $link, $url ) {
+add_filter( 'share_link', 'hook__share_link' );
+function hook__share_link( $link ) {
 	return $link;
 }
 
@@ -62,6 +62,19 @@ function hook__share_count_NETWORK( $api, $network ) {
 add_filter( 'share_meta', 'hook__share_meta' );
 function hook__share_meta( $meta ) {
 	return $meta;
+}
+
+/**
+ * Patterns (key) to replaced by (value).
+ *
+ * @param array $patterns
+ * @param bool $description     Indicator for dynamic values.
+ *
+ * @return array
+ */
+add_filter( 'share_patterns', 'hook__share_patterns', 10, 2 );
+function hook__share_patterns( $patterns, $description ) {
+	return $patterns;
 }
 
 /**

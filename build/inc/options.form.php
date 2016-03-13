@@ -60,7 +60,7 @@
 
 		<h3><?php _e( 'Enable/Disable and order share buttons', 'share' ); ?></h3>
 
-		<p><?php _e( "To change the order of the share links just drag'n'drop the <i>tabs</i> on the left in the desired order.",'share' ); ?></p>
+		<p><?php _e( "To change the order of the share links just drag'n'drop the <i>tabs</i> on the left in the desired order.", 'share' ); ?></p>
 
 		<div id="share-settings">
 
@@ -126,7 +126,7 @@
 								<td>
 									<input type="text" class="regular-text"
 									       value="<?php echo( $share_options[ $network ]['app_id'] ? $share_options[ $network ]['app_id'] : '' ); ?>"
-									       name="share[<?php echo $network; ?>][app_id]" />
+									       name="share[<?php echo $network; ?>][app_id]"/>
 								</td>
 							</tr>
 						<?php endif; ?>
@@ -151,14 +151,14 @@
 								<td>
 									<textarea name="share[<?php echo $network; ?>][text]"
 									          style="width:calc(25em + 1px);"
-									          placeholder="<?php echo ( !in_array( $network, array( 'Email' ) ) ? share_default_subject() . ' ' : '' ) . share_default_text(); ?>"><?php echo( $share_options[ $network ]['text'] ? $share_options[ $network ]['text'] : '' ); ?></textarea>
+									          placeholder="<?php echo ( ! in_array( $network, array( 'Email' ) ) ? share_default_subject() . ' ' : '' ) . share_default_text(); ?>"><?php echo( $share_options[ $network ]['text'] ? $share_options[ $network ]['text'] : '' ); ?></textarea>
 								</td>
 							</tr>
 
 							<tr valign="top" class="patterns">
 								<th><?php _e( 'Patterns', 'share' ) ?></th>
 								<td>
-									<?php foreach (share_patterns() as $pattern => $replacement) {
+									<?php foreach ( share_patterns( TRUE ) as $pattern => $replacement ) {
 										echo '<b>[' . $pattern . ']</b> &ndash; <i>' . $replacement . '</i><br />';
 									} ?>
 								</td>

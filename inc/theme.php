@@ -29,9 +29,7 @@ function get_share_links( $url = '', $cache = TRUE ) {
 	$networks = $share_options['networks'];
 	$post_types = $share_options['post_types'];
 
-	global $more;
-
-	if ( ! $more || ! ( $post = get_post() ) || ! $post_types[ $post->post_type ] ) {
+	if ( ! ( $post = get_post() ) || ! $post_types[ $post->post_type ] ) {
 		return '';
 	}
 
@@ -47,6 +45,7 @@ function get_share_links( $url = '', $cache = TRUE ) {
 			continue;
 		}
 
+		// share count
 		$shares[ $network ] = $share_options['counts'] && isset( $shares[ $network ] ) ? $shares[ $network ] : NULL;
 
 		// collect link data
@@ -145,7 +144,6 @@ function get_share_links( $url = '', $cache = TRUE ) {
 						'url' => $url,
 						'title' => get_the_title(),
 						'summary' => strip_tags( strip_shortcodes( get_the_content() ) ),
-						0,
 					),
 				);
 
@@ -167,9 +165,10 @@ function get_share_links( $url = '', $cache = TRUE ) {
 			);
 
 		// let others change links
-		$link = apply_filters( 'share_link', array( 'network' => $network ) + $link, $url );
-		$link = apply_filters( 'share_link_' . sanitize_title( $network ), $link, $url );
+		$link = apply_filters( 'share_link', array( 'network' => $network ) + $link );
+		$link = apply_filters( 'share_link_' . sanitize_title( $network ), $link );
 
+		// no link data
 		if ( ! $link || ( is_array( $link ) && ! array_filter( $link ) ) ) {
 			unset( $networks[ $network ] );
 			continue;
@@ -188,6 +187,7 @@ function get_share_links( $url = '', $cache = TRUE ) {
 		}
 	}
 
+	// no links at all
 	if ( empty( $networks ) ) {
 		return '';
 	}
@@ -203,14 +203,16 @@ function get_share_links( $url = '', $cache = TRUE ) {
 /**
  * 'share_link_facebook' filter.
  */
-add_filter( 'share_link_facebook', 'share_link_facebook', 100, 2 );
-function share_link_facebook( $link, $url ) {
+add_filter( 'share_link_facebook', 'share_link_facebook', 100 );
+function share_link_facebook( $link ) {
 	// Facebook fallback sharer
 	if ( isset( $link['query']['app_id'] ) && ! is_numeric( $link['query']['app_id'] ) ) {
+		$action_properties = json_decode( $link['query']['action_properties'] );
+
 		$link = array(
 			        'href' => 'http://www.facebook.com/sharer.php',
 			        'query' => array(
-				        'u' => $url,
+				        'u' => $action_properties->object,
 			        ),
 		        ) + $link;
 	}
@@ -219,18 +221,24 @@ function share_link_facebook( $link, $url ) {
 }
 
 /**
- * 'share_link' filter.
+ * Filter mobile links on non mobile devices.
  */
-add_filter( 'share_link', 'share_link', 0, 2 );
-function share_link( $link, $url ) {
-	// hide on non mobile
+add_filter( 'share_link', 'share_link_mobile', 0 );
+function share_link_mobile( $link ) {
 	if ( in_array( $link['network'], array( 'Whatsapp', 'SMS' ) ) ) {
 		if ( ! preg_match( '/(iPhone|iPod|iPad|BlackBerry|Pre|Palm|Googlebot-Mobile|mobi|Safari Mobile|Windows Mobile|Android|Opera Mini|mobile)/', $_SERVER['HTTP_USER_AGENT'], $matches ) ) {
 			return NULL;
 		}
 	}
 
-	// share texts
+	return $link;
+}
+
+/**
+ * Default share texts.
+ */
+add_filter( 'share_link', 'share_link_default_texts' );
+function share_link_default_texts( $link ) {
 	if ( in_array( $link['network'], array( 'Email', 'Whatsapp', 'SMS' ) )
 	     && ( $options = share_get_option( $link['network'] ) )
 	) {
@@ -246,22 +254,6 @@ function share_link( $link, $url ) {
 			$text = $subject . ' ' . $text;
 		}
 
-		// get patterns and replacements
-		$patterns = share_patterns();
-		$patterns['url'] = $url;
-
-		$replacement = array_values( $patterns );
-
-		$patterns = array_keys( $patterns );
-		$patterns = array_map( function ( $pattern ) {
-			return '/\[' . $pattern . '\]/';
-		}, $patterns );
-
-		// eventually replace patterns
-		foreach ( array( 'subject', 'text' ) as $string ) {
-			$$string = preg_replace( $patterns, $replacement, $$string );
-		}
-
 		switch ( $link['network'] ) {
 			case 'Email':
 				$link['query']['subject'] = $subject;
@@ -273,6 +265,38 @@ function share_link( $link, $url ) {
 			case 'Whatsapp':
 				$link['query']['text'] = $text;
 				break;
+		}
+	}
+
+	return $link;
+}
+
+/**
+ * Replace patterns.
+ */
+add_filter( 'share_link', 'share_link_replace_patterns', 1000 );
+function share_link_replace_patterns( $link ) {
+	if ( is_array( $link ) ) {
+		// loop through $link data
+		foreach ( $link as $key => $value ) {
+			// replace patterns
+			if ( is_string( $value ) ) {
+				// get patterns and replacements
+				$patterns = share_patterns();
+
+				$replacements = array_values( $patterns );
+
+				$patterns = array_keys( $patterns );
+				$patterns = array_map( function ( $pattern ) {
+					return '/\[' . $pattern . '\]/';
+				}, $patterns );
+
+				// eventually replace patterns
+				$link[ $key ] = preg_replace( $patterns, $replacements, $value );
+			} elseif ( is_array( $value ) ) {
+				// recursive
+				$link[ $key ] = share_link_replace_patterns( $value );
+			}
 		}
 	}
 

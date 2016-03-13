@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ...
+ * Add meta tags.
  */
 add_action( 'wp_head', 'share__wp_head' );
 function share__wp_head() {

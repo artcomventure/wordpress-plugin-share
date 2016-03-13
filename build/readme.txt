@@ -69,8 +69,14 @@ _We test our plugin through its paces, but we advise you to take all safety prec
 
 = Unreleased =
 
-* allow share links in ´!$more´ view
+* Add follow section
 * Add more networks
+
+= 1.2.1 - 2016-03-12 =
+**Fixed**
+
+* Share links in post's ´!$more´ view
+* Minor bugs
 
 = 1.2.0 - 2016-03-12 =
 **Added**

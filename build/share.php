@@ -4,7 +4,7 @@
  * Plugin Name: Share
  * Plugin URI: https://github.com/artcomventure/wordpress-plugin-share
  * Description: Spread your content over social networks and more (Facebook, Twitter, Google+, Pinterest, Tumblr, Whatsapp, SMS, Email).
- * Version: 1.2.0
+ * Version: 1.2.1
  * Text Domain: share
  * Author: artcom venture GmbH
  * Author URI: http://www.artcom-venture.de/
@@ -50,20 +50,20 @@ function share__after_setup_theme() {
 function share_counts( $url = '', $cache = TRUE ) {
 	$post = get_post();
 
-	if ( ! $url ) {
-		if ( ! $url = get_the_permalink() ) {
-			$url = $post->guid;
-		}
+	if ( ! $url && ! ( $url = get_the_permalink() ) ) {
+		$url = $post->guid;
 	}
 
-	$url = urldecode( $url );
-
-	$networks = share_networks();
+	if ( ! $url = urldecode( $url ) ) {
+		return array();
+	}
 
 	// string to boolean
 	if ( ! is_bool( $cache ) ) {
 		$cache = ( ! in_array( strtolower( $cache ), array( 'false', '0' ) ) ? TRUE : FALSE );
 	}
+
+	$networks = share_networks();
 
 	if ( $cache
 	     && ( $shares = get_metadata( 'post', $post->ID, '_shares', TRUE ) )
@@ -151,7 +151,7 @@ function share_counts( $url = '', $cache = TRUE ) {
 
 		// let others change/extend curl action
 		$api = apply_filters( 'share_count', $api, $network );
-		$api = apply_filters( 'share_count', $api, $network );
+		$api = apply_filters( 'share_count_' . sanitize_title( $network ), $api, $network );
 
 		// merge defaults
 		$api += array(
@@ -162,7 +162,7 @@ function share_counts( $url = '', $cache = TRUE ) {
 			},
 		);
 
-		// set curl method
+		// set method
 		if ( $api['method'] == 'POST' ) {
 			curl_setopt( $ch, CURLOPT_POST, 1 );
 
@@ -176,7 +176,6 @@ function share_counts( $url = '', $cache = TRUE ) {
 		curl_setopt( $ch, CURLOPT_URL, $api['url'] );
 
 		if ( $shares[ $network ] = curl_exec( $ch ) ) {
-			// get rid of callback function
 			// we just need plain json
 			$shares[ $network ] = preg_replace( '/^[a-z_]*\((.*)\)$/', '\\1', $shares[ $network ] );
 
@@ -205,22 +204,24 @@ function share_counts( $url = '', $cache = TRUE ) {
 }
 
 // meta tags (og, twitter, ...)
-include( SHARE_PLUGIN_DIR . '/inc/meta.php' );
+include( SHARE_PLUGIN_DIR . 'inc/meta.php' );
 // share links as widget
-include( SHARE_PLUGIN_DIR . '/inc/widgets.php' );
+include( SHARE_PLUGIN_DIR . 'inc/widgets.php' );
 // theme share links
-include( SHARE_PLUGIN_DIR . '/inc/theme.php' );
+include( SHARE_PLUGIN_DIR . 'inc/theme.php' );
 // options
-include( SHARE_PLUGIN_DIR . '/inc/options.php' );
+include( SHARE_PLUGIN_DIR . 'inc/options.php' );
 // auto include shortcodes
-foreach ( scandir( SHARE_PLUGIN_DIR . '/inc' ) as $file ) {
+foreach ( scandir( SHARE_PLUGIN_DIR . 'inc' ) as $file ) {
 	if ( preg_match( '/shortcode\..+\.php/', $file ) ) {
-		require SHARE_PLUGIN_DIR . '/inc/' . $file;
+		require SHARE_PLUGIN_DIR . 'inc/' . $file;
 	}
 }
 
-// remove update notification
-// ... just in case ;)
+/**
+ * Remove update notification.
+ * Plugin isn't hosted on WordPress.
+ */
 add_filter( 'site_transient_update_plugins', 'share__site_transient_update_plugins' );
 function share__site_transient_update_plugins( $value ) {
 	$plugin_file = plugin_basename( __FILE__ );
