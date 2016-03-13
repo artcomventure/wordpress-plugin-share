@@ -5,7 +5,7 @@
 * Add follow section
 * Add more networks
 
-## 1.2.2 - 2016-03-12
+## 1.2.2 - 2016-03-13
 **Fixed**
 
 * Minor bugs
@@ -14,7 +14,7 @@
 
 * german translation
 
-## 1.2.1 - 2016-03-12
+## 1.2.1 - 2016-03-13
 **Fixed**
 
 * Share links in post's ´!$more´ view

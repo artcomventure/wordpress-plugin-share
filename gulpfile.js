@@ -117,6 +117,8 @@ gulp.task( 'build', ['clear:build', 'css', 'js'], function() {
         '**/*',
         // ... but:
         '!**/*.scss',
+        '!**/*.css.map',
+        '!**/*.css', // will be collected see next function
         '!*.md',
         '!LICENSE',
         '!readme.txt',
@@ -127,6 +129,12 @@ gulp.task( 'build', ['clear:build', 'css', 'js'], function() {
         '!node_modules{,/**}',
         '!build{,/**}'
     ] ).pipe( gulp.dest( 'build/' ) );
+
+    // collect css files
+    gulp.src( [ '**/*.css', '!node_modules{,/**}' ] )
+        // ... and remove '/*# sourceMappingURL=FILENAME.css.map */'
+        .pipe( replace( /\n*\/\*# sourceMappingURL=.*\.css\.map \*\/\n*$/g, '' ) )
+        .pipe( gulp.dest( 'build/' ) );
 
     // concat files for WP's readme.txt
     // manually validate output with https://wordpress.org/plugins/about/validator/
