@@ -75,5 +75,8 @@ msgstr ""
 msgid "URL of the page to share"
 msgstr ""
 
+msgid "Title of the page to share"
+msgstr ""
+
 msgid "Load default CSS"
 msgstr ""

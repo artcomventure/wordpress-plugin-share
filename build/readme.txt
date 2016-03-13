@@ -15,13 +15,14 @@ Spread your content over social networks and more (Facebook, Twitter, Google+, P
 
 Spread your WordPress content over the social networks **without the use of the networks' javascripts**.
 
-* Facebook
+* Facebook _(counter available)_
 * Twitter
-* Google+
-* Pinterest
+* Google+  _(counter available)_
+* Pinterest  _(counter available)_
 * Tumblr
-* Whatsapp
-* SMS
+* Linkedin  _(counter available)_
+* **Whatsapp**
+* **SMS**
 * Email
 
 == Installation ==
@@ -44,26 +45,31 @@ Spread your WordPress content over the social networks **without the use of the 
 
 Once activated you'll find the 'Share' options page listed in the submenu of 'Settings'.
 
-1. Decide if you want to show the number of shares of every social network.
-2. Define the post types the share functionality should be available.
-3. Enable the share buttons you want to provide and arrange them via drag'n'drop.
-4. Insert share links:
+1. Decide whether to show the number of shares (if available) or not.
+2. Attach default styling or not.
+3. Define the post types the share functionality should be available for.
+4. Enable the share buttons you want to provide and order them via drag'n'drop.
+5. Insert share links:
   * via widget
-  * in Template: `share_links();`
+  * in template: `share_links();`
   * with shortcode directly in the editor: `[share]`
+
+For developer: you have plenty of filters to interact and extend the code.
 
 == Plugin Updates ==
 
 Although the plugin is not _yet_ listed on https://wordpress.org/plugins/, you can use WordPress' update functionality to keep it in sync with the files from [GitHub](https://github.com/artcomventure/wordpress-plugin-share).
 
-Please use for this our [WordPress Repository Updater](https://github.com/artcomventure/wordpress-plugin-repoUpdater).
-
-**Repository Updater _Share_ Settings**
+**Please use for this our [WordPress Repository Updater](https://github.com/artcomventure/wordpress-plugin-repoUpdater)** with the settings:
 
 * Repository URL: https://github.com/artcomventure/wordpress-plugin-share/
 * Subfolder (optionally, if you don't want/need the development files in your environment): build
 
 _We test our plugin through its paces, but we advise you to take all safety precautions before the update. Just in case of the unexpected._
+
+== Questions, concerns, needs, suggestions? ==
+
+Don't hesitate! [Issues](https://github.com/artcomventure/wordpress-plugin-share/issues) welcome.
 
 == Changelog ==
 
@@ -71,6 +77,15 @@ _We test our plugin through its paces, but we advise you to take all safety prec
 
 * Add follow section
 * Add more networks
+
+= 1.2.2 - 2016-03-12 =
+**Fixed**
+
+* Minor bugs
+
+**Added**
+
+* german translation
 
 = 1.2.1 - 2016-03-12 =
 **Fixed**

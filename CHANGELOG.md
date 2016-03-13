@@ -5,6 +5,15 @@
 * Add follow section
 * Add more networks
 
+## 1.2.2 - 2016-03-12
+**Fixed**
+
+* Minor bugs
+
+**Added**
+
+* german translation
+
 ## 1.2.1 - 2016-03-12
 **Fixed**
 

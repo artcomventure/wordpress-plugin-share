@@ -11,7 +11,7 @@
             if ( shareLinks[i].classList.contains( 'share__comments' ) ) continue;
 
             shareLinks[i].addEventListener( 'click', function( e ) {
-                if ( this.href.match( new RegExp( '^(mailto|javascript):' ) ) ) return;
+                if ( this.href.match( new RegExp( '^(mailto|javascript|whatsapp|sms):' ) ) ) return;
 
                 e.preventDefault();
 
