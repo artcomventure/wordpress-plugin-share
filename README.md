@@ -2,6 +2,8 @@
 
 Spread your WordPress content over the social networks **without the use of the networks' javascripts**.
 
+![image](assets/screenshot-1.png)
+
 * Facebook _(counter available)_
 * Twitter
 * Google+  _(counter available)_
@@ -31,6 +33,8 @@ Spread your WordPress content over the social networks **without the use of the 
 ## Usage
 
 Once activated you'll find the 'Share' options page listed in the submenu of 'Settings'.
+
+![image](assets/screenshot-2.png)
 
 1. Decide whether to show the number of shares (if available) or not.
 2. Attach default styling or not.
