@@ -78,6 +78,11 @@ Don't hesitate! [Issues](https://github.com/artcomventure/wordpress-plugin-share
 * Add follow section
 * Add more networks
 
+= 1.2.3 - 2016-05-17 =
+**Fixed**
+
+* Meta (image and default values).
+
 = 1.2.2 - 2016-03-13 =
 **Fixed**
 
