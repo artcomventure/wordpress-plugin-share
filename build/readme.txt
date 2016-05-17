@@ -78,6 +78,12 @@ Don't hesitate! [Issues](https://github.com/artcomventure/wordpress-plugin-share
 * Add follow section
 * Add more networks
 
+= 1.2.4 - 2016-05-17 =
+**Fixed**
+
+* Meta image PHP parse error.
+* Remove empty meta.
+
 = 1.2.3 - 2016-05-17 =
 **Fixed**
 

@@ -18,7 +18,9 @@ function share__wp_head() {
 
 		// image
 		if ( $meta['image'] = get_post_thumbnail_id( $post->ID ) ) {
-			$meta['image'] = wp_get_attachment_image_src( $meta['image'], 'large' )[0];
+			if ( $meta['image'] = wp_get_attachment_image_src( $meta['image'], 'large' ) ) {
+				$meta['image'] = $meta['image'][0];
+			}
 		}
 	} else {
 		$meta = array();
@@ -34,7 +36,9 @@ function share__wp_head() {
 	);
 
 	if ( empty( $meta['image'] ) && function_exists( 'the_custom_logo' ) && ( $meta['image'] = get_theme_mod( 'custom_logo' ) ) ) {
-		$meta['image'] = wp_get_attachment_image_src( $meta['image'], 'large' )[0];
+		if ( $meta['image'] = wp_get_attachment_image_src( $meta['image'], 'large' ) ) {
+			$meta['image'] = $meta['image'][0];
+		}
 	}
 
 	$meta['description'] = preg_replace( '/(\\n|\\r)/', ' ', $meta['description'] );
@@ -61,7 +65,7 @@ function share__wp_head() {
 
 	// og
 	foreach ( array( 'description', 'url', 'site_name', 'locale' ) as $property ) {
-		if ( empty( $meta['title'] ) ) {
+		if ( empty( $meta[ $property ] ) ) {
 			continue;
 		}
 
