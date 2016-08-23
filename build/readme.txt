@@ -78,6 +78,11 @@ Don't hesitate! [Issues](https://github.com/artcomventure/wordpress-plugin-share
 * Add follow section
 * Add more networks
 
+= 1.2.5 - 2016-08-23 =
+**Fixed**
+
+* Facebook REST API is deprecated.
+
 = 1.2.4 - 2016-05-17 =
 **Fixed**
 
