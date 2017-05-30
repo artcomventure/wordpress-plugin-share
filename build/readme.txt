@@ -43,16 +43,19 @@ Spread your WordPress content over the social networks **without the use of the 
 
 == Usage ==
 
-Once activated you'll find the 'Share' options page listed in the submenu of 'Settings'.
+Once activated you'll find the 'Share/Follow' options page listed in the submenu of 'Settings'.
 
-1. Decide whether to show the number of shares (if available) or not.
-2. Attach default styling or not.
-3. Define the post types the share functionality should be available for.
-4. Enable the share buttons you want to provide and order them via drag'n'drop.
-5. Insert share links:
+1. Attach default styling (as buttons) or not.
+2. Share settings
+  * Decide whether to show the number of shares (if available) or not.
+  * Define the post types the share functionality should be available for.
+  * Enable the share buttons you want to provide and order them via drag'n'drop.
+3. Follow settings
+  * Add as many networks (name and url) as you like.
+4. Insert share/follow links:
   * via widget
-  * in template: `share_links();`
-  * with shortcode directly in the editor: `[share]`
+  * in template: `share_links();` or `follow_links();`
+  * with shortcode directly in the editor: `[share]` or `[follow]`
 
 For developer: you have plenty of filters to interact and extend the code.
 
@@ -76,6 +79,11 @@ Don't hesitate! [Issues](https://github.com/artcomventure/wordpress-plugin-share
 = Unreleased =
 
 * Add more networks
+
+= 1.3.1 - 2017-05-30 =
+**Removed**
+
+* Test data.
 
 = 1.3.0 - 2017-05-30 =
 **Added**

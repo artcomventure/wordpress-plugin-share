@@ -4,6 +4,11 @@
 
 * Add more networks
 
+## 1.3.1 - 2017-05-30
+**Removed**
+
+* Test data.
+
 ## 1.3.0 - 2017-05-30
 **Added**
 
