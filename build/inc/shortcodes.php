@@ -12,3 +12,11 @@ function share_shortcode( $args ) {
 
 	return get_share_links( $args['url'], $args['cache'] );
 }
+
+/**
+ * Follow shortcode for inline use.
+ */
+add_shortcode( 'follow', 'follow_shortcode' );
+function follow_shortcode() {
+	return get_follow_links();
+}

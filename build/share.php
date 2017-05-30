@@ -4,7 +4,7 @@
  * Plugin Name: Share
  * Plugin URI: https://github.com/artcomventure/wordpress-plugin-share
  * Description: Spread your content over social networks and more (Facebook, Twitter, Google+, Pinterest, Tumblr, Whatsapp, SMS, Email).
- * Version: 1.2.5
+ * Version: 1.3.0
  * Text Domain: share
  * Author: artcom venture GmbH
  * Author URI: http://www.artcom-venture.de/
@@ -27,7 +27,19 @@ function share_enqueue_scripts() {
 
 	// load default styles
 	if ( share_get_option( 'css' ) ) {
-		wp_enqueue_style( 'share', SHARE_PLUGIN_URL . 'css/share.css', array(), '20160312' );
+		wp_register_style( 'share', SHARE_PLUGIN_URL . 'css/share.css', array(), '20170530' );
+		if ( $networks = share_get_option( 'follow' ) ) {
+			$favicons = '';
+
+			foreach ( $networks as $network ) {
+				$favicons .= 'ul.follow a.follow__' . sanitize_title( $network['network'] ) . ':before {
+	background-image: url(https://www.google.com/s2/favicons?domain=' . $network['url'] . ');
+}';
+			}
+
+			wp_add_inline_style( 'share', $favicons );
+		}
+		wp_enqueue_style( 'share' );
 	}
 }
 
@@ -210,12 +222,8 @@ include( SHARE_PLUGIN_DIR . 'inc/widgets.php' );
 include( SHARE_PLUGIN_DIR . 'inc/theme.php' );
 // options
 include( SHARE_PLUGIN_DIR . 'inc/options.php' );
-// auto include shortcodes
-foreach ( scandir( SHARE_PLUGIN_DIR . 'inc' ) as $file ) {
-	if ( preg_match( '/shortcode\..+\.php/', $file ) ) {
-		require SHARE_PLUGIN_DIR . 'inc/' . $file;
-	}
-}
+// shortcodes
+include( SHARE_PLUGIN_DIR . 'inc/shortcodes.php' );
 
 /**
  * Remove update notification.

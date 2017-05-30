@@ -1,69 +1,85 @@
-( function( $, window, undefined ) {
+(function ( $, window, undefined ) {
 
-    var $form = $( '#share-settings-form'),
-        $tabsWrap = $( '#share-settings' ),
-        $tabs = $( 'ul.tabs > li', $tabsWrap ),
-        $currentTab,
-        $panelsWrap = $( 'div.panels', $tabsWrap),
-        $panels = $( '> *', $panelsWrap );
+    $( 'div.nav-tab-wrapper, #share ul.tabs' ).each( function() {
+        var $this = $( this ),
+            $tabs = $( 'a', $this ).on( 'click', function( e ) {
+            e.preventDefault();
 
-    $form.data( 'action', $form.attr( 'action' ) );
-
-    // tabs action
-    $tabs.on( 'click', 'a', function( e ) {
-        var $link = $( this ).blur(),
-            sHash = $link.attr( 'href' ),
-            $panel;
-
-        e.preventDefault();
-
-        // don't do anything if the click is for the tab already showing
-        if ( $link.is( '.active a' ) )
-            return false;
-
-        // set hash
-        window.location.hash = sHash;
-        $form.attr( 'action', $form.data( 'action' ) + '#' + sHash );
-
-        // links
-        $( 'a.active', $tabs ).removeClass( 'active' );
-        $link.addClass( 'active' );
-
-        $panel = $( sHash );
-
-        // panels
-        $panels.not( $panel ).removeClass( 'active' ).hide();
-        $panel.addClass( 'active' ).show();
-    } );
-
-    // current tab
-    if ( window.location.hash ) $currentTab = $tabs.find( 'a[href="' + window.location.hash + '"]' );
-    if ( !$currentTab || !$currentTab.length ) $currentTab = $tabs.first().find( 'a' );
-
-    // activate current tab
-    $currentTab.trigger( 'click' );
-
-    // sortable tabs
-    $tabsWrap.find( 'ul.tabs' ).sortable( {
-        axis: 'y',
-        containment: 'parent',
-        stop: function( event ) {
-            // reorder panels
-            $.each( $( event.target).find( 'a' ).toArray().reverse(), function() {
-                $panelsWrap.prepend( $panelsWrap.find( $( this).attr( 'href' ) ) );
+            // deselect
+            $tabs.removeClass( 'nav-tab-active' ).each( function () {
+                // hide all sections
+                $( $( this ).attr( 'href' ) ).hide();
             } );
-        }
+
+            // activate clicked section
+            $( $( this ).blur().addClass( 'nav-tab-active' ).attr( 'href' ) ).show();
+        } );
+
+        // activate first tab
+        $this.find( 'a' ).first().trigger( 'click' );
+
+        if ( !$this.hasClass( 'tabs' ) ) return;
+
+        // sortable tabs
+        $this.sortable( {
+            axis: 'y',
+            containment: 'parent',
+            stop: function ( event ) {
+                // reorder panels
+                $.each( $( event.target ).find( 'a' ).toArray().reverse(), function () {
+                    $this.next().prepend( $this.next().find( $( this ).attr( 'href' ) ) );
+                } );
+            }
+        } );
+
+        /**
+         * Patterns selection.
+         */
+
+        $( 'tr.patterns b', $this.next() ).on( 'click', function () {
+            var range = document.createRange();
+            range.selectNodeContents( this );
+
+            window.getSelection().addRange( range );
+        } );
     } );
 
     /**
-     * Patterns selection.
+     * Follow.
      */
 
-    $tabsWrap.find( 'tr.patterns b').on( 'click', function() {
-        var range = document.createRange();
-        range.selectNodeContents( this );
+    var $followList = $( 'tbody', '#follow-list' ).on( 'click', 'span.dashicons-no-alt', function() {
+        $( this ).closest( 'tr' ).remove();
 
-        window.getSelection().addRange( range );
+        renameListOrder();
+    } ).sortable( {
+        axis: 'y',
+        containment: 'parent',
+        tolerance: 'pointer',
+        'start': function (event, ui) {
+            ui.placeholder.html( '<tr><td colspan="2"><input type="text" /></td></tr>' )
+        },
+        stop: renameListOrder
     } );
 
-} )( jQuery, this, this.document );
+    $( '#add-follow-network', '#follow-settings' ).on( 'click', function( e ) {
+        e.preventDefault();
+
+        // add network entry
+        $followList.append( $( $( 'tr:first-child', $followList ).clone() ).show() );
+
+        renameListOrder();
+    } );
+
+    // rename order
+    function renameListOrder() {
+        $( 'tr', $followList ).each( function( nb ) {
+            if ( !nb-- ) return; // ignore first (template)
+
+            $( ':input', this ).each( function() {
+                $( this ).attr( 'name', $( this ).attr( 'name' ).replace( /^share\[follow\]\[\d*\]\[(.*)\]$/, 'share[follow][' + nb + '][$1]' ) );
+            } );
+        } );
+    }
+
+})( jQuery, this, this.document );

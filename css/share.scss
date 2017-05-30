@@ -1,45 +1,37 @@
 @import "./favicons";
 @import "./colors";
 
-ul.share {
-  margin: .86em -.14em;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-grow: 1;
-  flex-wrap: wrap;
+ul {
+  @each $action in share, follow {
+    &.#{$action} {
+      margin: .86em -.14em;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-grow: 1;
+      flex-wrap: wrap;
 
-  li {
-    margin: .14em;
-  }
-
-  a {
-    display: block;
-    text-decoration: none;
-    color: #fff;
-    padding: .28em .56em;
-    border-radius: 2px;
-
-    @each $network, $color in $colors {
-      @if $network != 'share__link' {
-        $network: 'share__' + $network
+      li {
+        margin: .14em;
       }
 
-      &.#{$network} {
-        background-color: $color;
+      a {
+        display: block;
+        text-decoration: none;
+        color: #fff;
+        padding: .28em .56em;
+        border-radius: 2px;
 
-        &:hover {
-          background-color: darken($color, 10%);
+        @each $network, $color in $colors {
+          &.#{$action + '__' + $network} {
+            background-color: $color;
+
+            &:hover {
+              background-color: lighten($color, 11.5%);
+            }
+          }
         }
-      }
-    }
 
-    @each $network, $url in $favicons {
-      @if $network != 'share__link' {
-        $network: 'share__' + $network
-      }
-
-      &.#{$network} {
         position: relative;
         padding-left: calc(16px + 7px + .28em);
 
@@ -52,8 +44,16 @@ ul.share {
           transform: translate(0, -50%);
           width: 16px;
           height: 16px;
-          background: url(https://www.google.com/s2/favicons?domain=#{$url}) no-repeat scroll center center transparent;
+          background: none no-repeat scroll center center transparent;
           background-size: cover;
+        }
+
+        @each $network, $url in $favicons {
+          &.#{$action + '__' + $network} {
+            &:before {
+              background-image: url(https://www.google.com/s2/favicons?domain=#{$url});
+            }
+          }
         }
       }
     }

@@ -3,7 +3,6 @@ var gulp = require( 'gulp' ),
     // gulp plugins
 
     sass = require( 'gulp-sass' ),
-    sourcemaps = require( 'gulp-sourcemaps' ),
     // css vendor prefixes
     autoprefixer = require( 'gulp-autoprefixer' ),
     rename = require( 'gulp-rename' ),
@@ -59,7 +58,6 @@ var gulp = require( 'gulp' ),
 gulp.task( 'scss', function() {
     return gulp.src( scssFiles, { base: 'wp-content' } )
         .pipe( plumber( { errorHandler: onError } ) )
-        .pipe( sourcemaps.init() )
         // scss to css
         .pipe( sass() )
         // vendor prefixes
@@ -73,9 +71,19 @@ gulp.task( 'scss', function() {
         .pipe( replace( /}\n(\.|#|\w|\s*\d)/g, "}\n\n$1" ) )
         // ... remove blank lines in instruction
         .pipe( replace( /;\s*\n(\s*\n)+/g, ";\n" ) )
-        // write sourcemap
-        .pipe( sourcemaps.write( '.' ) )
         .pipe( gulp.dest( 'wp-content' ) );
+} );
+
+/**
+ * Compile .po files to .mo
+ */
+var gettext = require( 'gulp-gettext' ),
+    poFiles = ['./languages/*.po'];
+
+gulp.task( 'po2mo', function () {
+    return gulp.src( poFiles )
+        .pipe( gettext() )
+        .pipe( gulp.dest( './languages' ) )
 } );
 
 /**
@@ -160,4 +168,5 @@ gulp.task( 'build', ['clear:build', 'css', 'js'], function() {
 gulp.task( 'default', function() {
     gulp.watch( scssFiles, ['css'] );
     gulp.watch( jsFiles, ['js'] );
+    gulp.watch( poFiles, ['po2mo'] );
 } );

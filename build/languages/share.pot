@@ -24,7 +24,7 @@ msgstr ""
 msgid "Show counts"
 msgstr ""
 
-msgid "Get and show number of shares."
+msgid "Get and show number of shares"
 msgstr ""
 
 msgid "Unfortunately this can't be provided for all share buttons. For detailed information see network section below."
@@ -37,6 +37,9 @@ msgid "Enable"
 msgstr ""
 
 msgid "Enable/Disable and order share buttons"
+msgstr ""
+
+msgid "Follow"
 msgstr ""
 
 msgid "To change the order of the share links just drag'n'drop the <i>tabs</i> on the left in the desired order."
@@ -63,6 +66,9 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
+msgid "Share"
+msgstr ""
+
 msgid "Share buttons"
 msgstr ""
 
@@ -79,4 +85,19 @@ msgid "Title of the page to share"
 msgstr ""
 
 msgid "Load default CSS"
+msgstr ""
+
+msgid "Display links as buttons"
+msgstr ""
+
+msgid "Follow buttons"
+msgstr ""
+
+msgid "Let users connect to your social networks."
+msgstr ""
+
+msgid "Add Network"
+msgstr ""
+
+msgid "Url"
 msgstr ""

@@ -1,12 +1,11 @@
 @charset "UTF-8";
-#share-settings {
-    display: -webkit-flex;
+#share {
     display: -ms-flexbox;
-    display:         flex;
+    display: flex;
     margin-top: 2em;
 }
 
-#share-settings ul.tabs {
+#share ul.tabs {
     box-sizing: border-box;
     width: 150px;
     margin: 0;
@@ -14,66 +13,65 @@
     border-right: 1px solid rgba(0, 0, 0, .15);
 }
 
-#share-settings ul.tabs li {
+#share ul.tabs li {
     margin: 0;
 }
 
-#share-settings ul.tabs li.enabled a {
+#share ul.tabs li.enabled a {
     position: relative;
     padding-left: calc(16px + 7px + .42em);
     color: #46b450;
 }
 
-#share-settings ul.tabs li.enabled a:before {
+#share ul.tabs li.enabled a:before {
     position: absolute;
     top: 50%;
     left: 7px;
     width: 16px;
     height: 16px;
     content: "✓";
-    -webkit-transform: translate(0, -50%);
-        -ms-transform: translate(0, -50%);
-            transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+        transform: translate(0, -50%);
     text-align: center;
     background: none no-repeat scroll center center transparent;
     background-size: cover;
 }
 
-#share-settings ul.tabs li.enabled a[href="#tab_facebook"]:before {
+#share ul.tabs li.enabled a[href="#tab_facebook"]:before {
     content: "";
     background: url(https://www.google.com/s2/favicons?domain=https://www.facebook.com/) no-repeat scroll center center transparent;
 }
 
-#share-settings ul.tabs li.enabled a[href="#tab_google"]:before {
+#share ul.tabs li.enabled a[href="#tab_google"]:before {
     content: "";
     background: url(https://www.google.com/s2/favicons?domain=https://plus.google.com/) no-repeat scroll center center transparent;
 }
 
-#share-settings ul.tabs li.enabled a[href="#tab_linkedin"]:before {
+#share ul.tabs li.enabled a[href="#tab_linkedin"]:before {
     content: "";
     background: url(https://www.google.com/s2/favicons?domain=https://www.linkedin.com/) no-repeat scroll center center transparent;
 }
 
-#share-settings ul.tabs li.enabled a[href="#tab_pinterest"]:before {
+#share ul.tabs li.enabled a[href="#tab_pinterest"]:before {
     content: "";
     background: url(https://www.google.com/s2/favicons?domain=https://www.pinterest.com/) no-repeat scroll center center transparent;
 }
 
-#share-settings ul.tabs li.enabled a[href="#tab_twitter"]:before {
+#share ul.tabs li.enabled a[href="#tab_twitter"]:before {
     content: "";
     background: url(https://www.google.com/s2/favicons?domain=https://twitter.com/) no-repeat scroll center center transparent;
 }
 
-#share-settings ul.tabs li.enabled a[href="#tab_whatsapp"]:before {
+#share ul.tabs li.enabled a[href="#tab_whatsapp"]:before {
     content: "";
     background: url(https://www.google.com/s2/favicons?domain=https://www.whatsapp.com/) no-repeat scroll center center transparent;
 }
 
-#share-settings ul.tabs li + li {
+#share ul.tabs li + li {
     margin-top: -1px;
 }
 
-#share-settings ul.tabs a {
+#share ul.tabs a {
     display: block;
     margin-right: -1px; 
     padding: 7px;
@@ -81,39 +79,38 @@
     border: 1px solid transparent;
 }
 
-#share-settings ul.tabs a:hover,
-#share-settings ul.tabs a.active {
+#share ul.tabs a:hover,
+#share ul.tabs a.nav-tab-active {
     border-color: rgba(0, 0, 0, .15);
     border-right-color: #f1f1f1;
     background: linear-gradient(to right, #fff, transparent);
 }
 
-#share-settings ul.tabs a.active {
+#share ul.tabs a.nav-tab-active {
     color: #23282d;
 }
 
-#share-settings ul.tabs a.error {
+#share ul.tabs a.error {
     color: #dc3232;
 }
 
-#share-settings ul.tabs.ui-sortable li a {
+#share ul.tabs.ui-sortable li a {
     cursor: move;
 }
 
-#share-settings .panels {
+#share .panels {
     font-size: 13px;
     line-height: 1.5;
     padding-left: 20px;
-    -webkit-flex-grow: 1;
     -ms-flex-positive: 1;
-            flex-grow: 1;
+    flex-grow: 1;
 }
 
-#share-settings .panels table thead td {
+#share .panels table thead td {
     padding: 0;
 }
 
-#share-settings .panels table thead div {
+#share .panels table thead div {
     margin-bottom: 15px; 
     padding: 1px 12px;
     border-left: 4px solid #dc3232;
@@ -121,16 +118,16 @@
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
 }
 
-#share-settings .panels table thead p {
+#share .panels table thead p {
     margin: .5em 0;
     padding: 2px;
 }
 
-#share-settings .panels table:not(.active) {
+#share .panels table:not(.active) {
     display: none;
 }
 
-#share-settings .panels ul.notes {
+#share .panels ul.notes {
     padding-left: 1.14em;
     list-style: disc;
 }
@@ -149,4 +146,22 @@
 
 #share__socials.ui-sortable tr:hover {
     background-color: rgba(0, 0, 0, .05);
+}
+
+#follow-list {
+    margin: 1em 0;
+}
+
+#follow-list td {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+#follow-list .dashicons {
+    padding-top: 4px;
+    cursor: pointer;
+}
+
+#follow-list .dashicons-move {
+    cursor: move;
 }

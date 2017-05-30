@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Theme share links.
+ * Display share links.
  *
  * @param string $url
  * @param bool $cache
@@ -13,7 +13,7 @@ function share_links( $url = '', $cache = TRUE ) {
 }
 
 /**
- * Theme share links.
+ * Retrieve share links.
  *
  * @param string $url
  * @param bool $cache
@@ -302,3 +302,43 @@ function share_link_replace_patterns( $link ) {
 
 	return $link;
 }
+
+/**
+ * Display follow links.
+ *
+ * @return string
+ */
+function follow_links() {
+	echo get_follow_links();
+}
+
+/**
+ * Retrieve follow links.
+ *
+ * @return string
+ */
+function get_follow_links() {
+	$networks = array();
+
+	foreach ( share_get_option( 'follow' ) as $network ) {
+		$link = '<a class="follow__link follow__' . sanitize_title( $network['network'] ) . '" href="' . $network['url'] . '" target="_blank">' . $network['network'] . '</a>';
+
+		// let others change links
+		$link = apply_filters( 'follow_link', $link, $network );
+
+		if ( $link ) $networks[] = $link;
+	}
+
+	// no links at all
+	if ( empty( $networks ) ) {
+		return '';
+	}
+
+	// let others theme share list output
+	if ( $output = apply_filters( 'follow_theme_list', '', $networks ) ) {
+		return $output;
+	}
+
+	return '<ul class="follow"><li>' . implode( '</li><li>', $networks ) . '</li></ul>';
+}
+

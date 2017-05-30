@@ -22,8 +22,8 @@ msgstr "%s Einstellungen"
 msgid "Show counts"
 msgstr "Anzahl anzeigen"
 
-msgid "Get and show number of shares."
-msgstr "Anzahl der <i>Shares</i> anzeigen."
+msgid "Get and show number of shares"
+msgstr "Anzahl der <i>Shares</i> anzeigen"
 
 msgid "Unfortunately this can't be provided for all share buttons. For detailed information see network section below."
 msgstr "Leider kann nicht für alle Share-Buttons die Anzahl der <i>Shares</i> anzeigen werden. Nähere Informationen weiter unten."
@@ -35,7 +35,10 @@ msgid "Enable"
 msgstr "Aktivieren"
 
 msgid "Enable/Disable and order share buttons"
-msgstr "Share Buttons de-/aktivieren und sortieren"
+msgstr "Share-Buttons de-/aktivieren und sortieren"
+
+msgid "Follow"
+msgstr "Folgen"
 
 msgid "To change the order of the share links just drag'n'drop the <i>tabs</i> on the left in the desired order."
 msgstr "Um die Reihenfolge zu ändern einfach links die <i>Tabs</i> per drag'n'drop sortieren."
@@ -61,6 +64,9 @@ msgstr "Betreff"
 msgid "Email"
 msgstr "E-Mail"
 
+msgid "Share"
+msgstr "Teilen"
+
 msgid "Share buttons"
 msgstr "Share-Buttons"
 
@@ -78,3 +84,18 @@ msgstr "Titel der Seite, die geteilt werden soll"
 
 msgid "Load default CSS"
 msgstr "Standard-CSS laden"
+
+msgid "Display links as buttons"
+msgstr "Links als Buttons anzeigen"
+
+msgid "Follow buttons"
+msgstr "Folgen-Buttons"
+
+msgid "Let users connect to your social networks."
+msgstr "Lassen Sie Benutzer mit Ihren sozialen Netzwerken verbinden."
+
+msgid "Add Network"
+msgstr "Netzwerk hinzufügen"
+
+msgid "Network"
+msgstr "Netzwerk"

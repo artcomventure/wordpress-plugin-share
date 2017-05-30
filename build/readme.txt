@@ -75,8 +75,12 @@ Don't hesitate! [Issues](https://github.com/artcomventure/wordpress-plugin-share
 
 = Unreleased =
 
-* Add follow section
 * Add more networks
+
+= 1.3.0 - 2017-05-30 =
+**Added**
+
+* Follow section.
 
 = 1.2.5 - 2016-08-23 =
 **Fixed**

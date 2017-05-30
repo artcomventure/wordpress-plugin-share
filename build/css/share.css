@@ -1,16 +1,13 @@
 ul.share {
-    display: -webkit-flex;
     display: -ms-flexbox;
-    display:         flex;
+    display: flex;
     margin: .86em -.14em;
     padding: 0;
     list-style: none;
-    -webkit-flex-grow: 1;
     -ms-flex-positive: 1;
-            flex-grow: 1;
-    -webkit-flex-wrap: wrap;
-        -ms-flex-wrap: wrap;
-            flex-wrap: wrap;
+    flex-grow: 1;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
 }
 
 ul.share li {
@@ -18,19 +15,21 @@ ul.share li {
 }
 
 ul.share a {
+    position: relative;
     display: block;
     padding: .28em .56em;
+    padding-left: calc(16px + 7px + .28em);
     text-decoration: none;
     color: #fff;
     border-radius: 2px;
 }
 
 ul.share a.share__link {
-    background-color: #007acc;
+    background-color: #aaa;
 }
 
 ul.share a.share__link:hover {
-    background-color: #005c99;
+    background-color: #c7c7c7;
 }
 
 ul.share a.share__facebook {
@@ -38,7 +37,7 @@ ul.share a.share__facebook {
 }
 
 ul.share a.share__facebook:hover {
-    background-color: #384d80;
+    background-color: #6981bd;
 }
 
 ul.share a.share__twitter {
@@ -46,7 +45,7 @@ ul.share a.share__twitter {
 }
 
 ul.share a.share__twitter:hover {
-    background-color: #2393eb;
+    background-color: #88c4f4;
 }
 
 ul.share a.share__google {
@@ -54,7 +53,7 @@ ul.share a.share__google {
 }
 
 ul.share a.share__google:hover {
-    background-color: #b72f25;
+    background-color: #e17168;
 }
 
 ul.share a.share__whatsapp {
@@ -62,7 +61,7 @@ ul.share a.share__whatsapp {
 }
 
 ul.share a.share__whatsapp:hover {
-    background-color: #28c039;
+    background-color: #74e280;
 }
 
 ul.share a.share__pinterest {
@@ -70,7 +69,7 @@ ul.share a.share__pinterest {
 }
 
 ul.share a.share__pinterest:hover {
-    background-color: #860000;
+    background-color: #f40000;
 }
 
 ul.share a.share__tumblr {
@@ -78,7 +77,7 @@ ul.share a.share__tumblr {
 }
 
 ul.share a.share__tumblr:hover {
-    background-color: #232e3d;
+    background-color: #4c6282;
 }
 
 ul.share a.share__linkedin {
@@ -86,125 +85,235 @@ ul.share a.share__linkedin {
 }
 
 ul.share a.share__linkedin:hover {
-    background-color: #007cb2;
+    background-color: #21bbff;
 }
 
-ul.share a.share__facebook {
-    position: relative;
-    padding-left: calc(16px + 7px + .28em);
+ul.share a.share__instagram {
+    background-color: #ed4a55;
+}
+
+ul.share a.share__instagram:hover {
+    background-color: #f27f87;
+}
+
+ul.share a.share__xing {
+    background-color: #b0d400;
+}
+
+ul.share a.share__xing:hover {
+    background-color: #d6ff10;
+}
+
+ul.share a.share__reddit {
+    background-color: #ff4500;
+}
+
+ul.share a.share__reddit:hover {
+    background-color: #ff703b;
+}
+
+ul.share a.share__deviantart {
+    background-color: #05cc47;
+}
+
+ul.share a.share__deviantart:hover {
+    background-color: #12f95f;
+}
+
+ul.share a:before {
+    position: absolute;
+    top: 50%;
+    left: 7px;
+    width: 16px;
+    height: 16px;
+    content: "";
+    -ms-transform: translate(0, -50%);
+        transform: translate(0, -50%);
+    text-align: center;
+    background: none no-repeat scroll center center transparent;
+    background-size: cover;
 }
 
 ul.share a.share__facebook:before {
-    position: absolute;
-    top: 50%;
-    left: 7px;
-    width: 16px;
-    height: 16px;
-    content: "";
-    -webkit-transform: translate(0, -50%);
-        -ms-transform: translate(0, -50%);
-            transform: translate(0, -50%);
-    text-align: center;
-    background: url(https://www.google.com/s2/favicons?domain=https://www.facebook.com/) no-repeat scroll center center transparent;
-    background-size: cover;
-}
-
-ul.share a.share__google {
-    position: relative;
-    padding-left: calc(16px + 7px + .28em);
+    background-image: url(https://www.google.com/s2/favicons?domain=https://www.facebook.com/);
 }
 
 ul.share a.share__google:before {
-    position: absolute;
-    top: 50%;
-    left: 7px;
-    width: 16px;
-    height: 16px;
-    content: "";
-    -webkit-transform: translate(0, -50%);
-        -ms-transform: translate(0, -50%);
-            transform: translate(0, -50%);
-    text-align: center;
-    background: url(https://www.google.com/s2/favicons?domain=https://plus.google.com/) no-repeat scroll center center transparent;
-    background-size: cover;
-}
-
-ul.share a.share__linkedin {
-    position: relative;
-    padding-left: calc(16px + 7px + .28em);
+    background-image: url(https://www.google.com/s2/favicons?domain=https://plus.google.com/);
 }
 
 ul.share a.share__linkedin:before {
-    position: absolute;
-    top: 50%;
-    left: 7px;
-    width: 16px;
-    height: 16px;
-    content: "";
-    -webkit-transform: translate(0, -50%);
-        -ms-transform: translate(0, -50%);
-            transform: translate(0, -50%);
-    text-align: center;
-    background: url(https://www.google.com/s2/favicons?domain=https://www.linkedin.com/) no-repeat scroll center center transparent;
-    background-size: cover;
-}
-
-ul.share a.share__pinterest {
-    position: relative;
-    padding-left: calc(16px + 7px + .28em);
+    background-image: url(https://www.google.com/s2/favicons?domain=https://www.linkedin.com/);
 }
 
 ul.share a.share__pinterest:before {
-    position: absolute;
-    top: 50%;
-    left: 7px;
-    width: 16px;
-    height: 16px;
-    content: "";
-    -webkit-transform: translate(0, -50%);
-        -ms-transform: translate(0, -50%);
-            transform: translate(0, -50%);
-    text-align: center;
-    background: url(https://www.google.com/s2/favicons?domain=https://www.pinterest.com/) no-repeat scroll center center transparent;
-    background-size: cover;
-}
-
-ul.share a.share__twitter {
-    position: relative;
-    padding-left: calc(16px + 7px + .28em);
+    background-image: url(https://www.google.com/s2/favicons?domain=https://www.pinterest.com/);
 }
 
 ul.share a.share__twitter:before {
-    position: absolute;
-    top: 50%;
-    left: 7px;
-    width: 16px;
-    height: 16px;
-    content: "";
-    -webkit-transform: translate(0, -50%);
-        -ms-transform: translate(0, -50%);
-            transform: translate(0, -50%);
-    text-align: center;
-    background: url(https://www.google.com/s2/favicons?domain=https://twitter.com/) no-repeat scroll center center transparent;
-    background-size: cover;
-}
-
-ul.share a.share__whatsapp {
-    position: relative;
-    padding-left: calc(16px + 7px + .28em);
+    background-image: url(https://www.google.com/s2/favicons?domain=https://twitter.com/);
 }
 
 ul.share a.share__whatsapp:before {
+    background-image: url(https://www.google.com/s2/favicons?domain=https://www.whatsapp.com/);
+}
+
+ul.follow {
+    display: -ms-flexbox;
+    display: flex;
+    margin: .86em -.14em;
+    padding: 0;
+    list-style: none;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+}
+
+ul.follow li {
+    margin: .14em;
+}
+
+ul.follow a {
+    position: relative;
+    display: block;
+    padding: .28em .56em;
+    padding-left: calc(16px + 7px + .28em);
+    text-decoration: none;
+    color: #fff;
+    border-radius: 2px;
+}
+
+ul.follow a.follow__link {
+    background-color: #aaa;
+}
+
+ul.follow a.follow__link:hover {
+    background-color: #c7c7c7;
+}
+
+ul.follow a.follow__facebook {
+    background-color: #4862a3;
+}
+
+ul.follow a.follow__facebook:hover {
+    background-color: #6981bd;
+}
+
+ul.follow a.follow__twitter {
+    background-color: #52aaef;
+}
+
+ul.follow a.follow__twitter:hover {
+    background-color: #88c4f4;
+}
+
+ul.follow a.follow__google {
+    background-color: #d74337;
+}
+
+ul.follow a.follow__google:hover {
+    background-color: #e17168;
+}
+
+ul.follow a.follow__whatsapp {
+    background-color: #43d854;
+}
+
+ul.follow a.follow__whatsapp:hover {
+    background-color: #74e280;
+}
+
+ul.follow a.follow__pinterest {
+    background-color: #b90000;
+}
+
+ul.follow a.follow__pinterest:hover {
+    background-color: #f40000;
+}
+
+ul.follow a.follow__tumblr {
+    background-color: #36465d;
+}
+
+ul.follow a.follow__tumblr:hover {
+    background-color: #4c6282;
+}
+
+ul.follow a.follow__linkedin {
+    background-color: #009fe5;
+}
+
+ul.follow a.follow__linkedin:hover {
+    background-color: #21bbff;
+}
+
+ul.follow a.follow__instagram {
+    background-color: #ed4a55;
+}
+
+ul.follow a.follow__instagram:hover {
+    background-color: #f27f87;
+}
+
+ul.follow a.follow__xing {
+    background-color: #b0d400;
+}
+
+ul.follow a.follow__xing:hover {
+    background-color: #d6ff10;
+}
+
+ul.follow a.follow__reddit {
+    background-color: #ff4500;
+}
+
+ul.follow a.follow__reddit:hover {
+    background-color: #ff703b;
+}
+
+ul.follow a.follow__deviantart {
+    background-color: #05cc47;
+}
+
+ul.follow a.follow__deviantart:hover {
+    background-color: #12f95f;
+}
+
+ul.follow a:before {
     position: absolute;
     top: 50%;
     left: 7px;
     width: 16px;
     height: 16px;
     content: "";
-    -webkit-transform: translate(0, -50%);
-        -ms-transform: translate(0, -50%);
-            transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+        transform: translate(0, -50%);
     text-align: center;
-    background: url(https://www.google.com/s2/favicons?domain=https://www.whatsapp.com/) no-repeat scroll center center transparent;
+    background: none no-repeat scroll center center transparent;
     background-size: cover;
+}
+
+ul.follow a.follow__facebook:before {
+    background-image: url(https://www.google.com/s2/favicons?domain=https://www.facebook.com/);
+}
+
+ul.follow a.follow__google:before {
+    background-image: url(https://www.google.com/s2/favicons?domain=https://plus.google.com/);
+}
+
+ul.follow a.follow__linkedin:before {
+    background-image: url(https://www.google.com/s2/favicons?domain=https://www.linkedin.com/);
+}
+
+ul.follow a.follow__pinterest:before {
+    background-image: url(https://www.google.com/s2/favicons?domain=https://www.pinterest.com/);
+}
+
+ul.follow a.follow__twitter:before {
+    background-image: url(https://www.google.com/s2/favicons?domain=https://twitter.com/);
+}
+
+ul.follow a.follow__whatsapp:before {
+    background-image: url(https://www.google.com/s2/favicons?domain=https://www.whatsapp.com/);
 }
