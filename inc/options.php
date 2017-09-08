@@ -116,10 +116,7 @@ function share_get_options( $option = '' ) {
 			'count' => 0,
 			'post_types' => array(),
 			'networks' => array(),
-			'follow' => array( array(
-				'network' => 'facebook',
-				'url' => 'https://www.facebook.com'
-			) ) // @since 1.3.0
+			'follow' => array() // @since 1.3.0
 		);
 
 	// remove empty entries
