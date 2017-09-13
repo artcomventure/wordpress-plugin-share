@@ -1,8 +1,9 @@
 # Changelog
 
-## Unreleased
+## 1.4.0 - 2017-09-13
+**Added**
 
-* Add more networks
+* Icon support.
 
 ## 1.3.2 - 2017-09-13
 **Fixed**

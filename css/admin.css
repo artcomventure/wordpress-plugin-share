@@ -1,4 +1,37 @@
 @charset "UTF-8";
+.icon-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.dashicons {
+    padding-top: 4px;
+    cursor: pointer;
+}
+
+.dashicons-move {
+    cursor: move;
+}
+
+.dashicons-format-gallery {
+    position: absolute;
+    z-index: 1;
+    top: calc(50% - 2px);
+    right: 3px;
+    -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    opacity: .35;
+}
+
+input[name$="[icon]"] {
+    padding-right: 23px !important;
+}
+
+input[name$="[icon]"]:hover + .dashicons-format-gallery,
+input[name$="[icon]"] + .dashicons-format-gallery:hover {
+    opacity: 1;
+}
+
 #share {
     display: -ms-flexbox;
     display: flex;
@@ -155,13 +188,4 @@
 #follow-list td {
     padding-top: 2px;
     padding-bottom: 2px;
-}
-
-#follow-list .dashicons {
-    padding-top: 4px;
-    cursor: pointer;
-}
-
-#follow-list .dashicons-move {
-    cursor: move;
 }

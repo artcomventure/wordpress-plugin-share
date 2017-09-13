@@ -20,8 +20,9 @@ function share__admin_menu() {
  * Settings page markup.
  */
 function share_settings_page() {
-	wp_enqueue_script( 'share-admin', SHARE_PLUGIN_URL . 'js/admin.js', array( 'jquery-ui-sortable' ), '20160510' );
-	wp_enqueue_style( 'share-admin', SHARE_PLUGIN_URL . 'css/admin.css', array(), '20160510' );
+	wp_enqueue_media();
+	wp_enqueue_script( 'share-admin', SHARE_PLUGIN_URL . 'js/admin.js', array( 'jquery-ui-sortable' ), '20170913' );
+	wp_enqueue_style( 'share-admin', SHARE_PLUGIN_URL . 'css/admin.css', array(), '20170913' );
 
 	include( SHARE_PLUGIN_DIR . 'inc/options.form.php' );
 }
@@ -109,18 +110,35 @@ function share_get_options( $option = '' ) {
 	// share version >= 1.2.0
 
 	// get share options
-	$share = get_option( 'share', array() );
+	$options = get_option( 'share', array() );
+
+	// backward compatibility prior 1.4.0
+	if ( isset( $options['networks'] ) ) {
+		$options['share'] = array();
+
+		foreach ( $options['networks'] as $network => $enabled ) {
+			if ( isset( $options[$network] ) ) {
+				$options['share'][$network] = $options[$network];
+				unset( $options[$network] );
+			}
+			else $options['share'][$network] = array();
+
+			$options['share'][$network] = array( 'enabled' => $enabled ) + $options['share'][$network];
+		}
+
+		unset( $options['networks'] );
+	}
 
 	// merge default
-	$share = array_filter( $share ) + array(
+	$options = array_filter( $options ) + array(
 			'count' => 0,
 			'post_types' => array(),
-			'networks' => array(),
+			'share' => array(), // @since 1.4.0 (prior 'networks')
 			'follow' => array() // @since 1.3.0
 		);
 
 	// remove empty entries
-	$share['follow'] = array_values( array_filter( array_map( 'array_filter', $share['follow'] ) ) );
+	$options['follow'] = array_values( array_filter( array_map( 'array_filter', $options['follow'] ) ) );
 
 	// get all post types
 	$post_types = array_filter( get_post_types(), function ( $post_type ) {
@@ -129,60 +147,62 @@ function share_get_options( $option = '' ) {
 
 	// merge post types
 	foreach ( $post_types as $post_type ) {
-		if ( ! array_key_exists( $post_type, $share['post_types'] ) ) {
-			$share['post_types'][ $post_type ] = 0;
+		if ( ! array_key_exists( $post_type, $options['post_types'] ) ) {
+			$options['post_types'][ $post_type ] = 0;
 		}
 	}
 
 	// check if post types still exists
-	foreach ( $share['post_types'] as $post_type => $enabled ) {
+	foreach ( $options['post_types'] as $post_type => $enabled ) {
 		if ( ! array_key_exists( $post_type, $post_types ) ) {
-			unset( $share['post_types'][ $post_type ] );
+			unset( $options['post_types'][ $post_type ] );
 		}
 	}
 
-	// default networks
+	// default networks to share
 	$networks = array(
-		'Facebook' => 0,
-		'Google+' => 0,
-		'Twitter' => 0,
-		'Email' => 0,
-		'Linkedin' => 0,
-		'Pinterest' => 0,
-		'SMS' => 0,
-		'Tumblr' => 0,
-		'Whatsapp' => 0,
+		'Facebook',
+		'Google+',
+		'Twitter',
+		'Email',
+		'Linkedin',
+		'Pinterest',
+		'SMS',
+		'Tumblr',
+		'Whatsapp',
 	);
 
 	// let others extend networks
 	$networks = apply_filters( 'share_networks', $networks );
 
 	// check if saved (option) networks are still supported
-	foreach ( $share['networks'] as $network => $status ) {
-		if ( ! array_key_exists( $network, $networks ) ) {
-			unset( $share['networks'][ $network ] );
-		}
+	foreach ( $options['share'] as $network => $config ) {
+		if ( ! in_array( $network, $networks ) )
+			unset( $options['share'][ $network ] );
 	}
 
-	// merge default
-	$share['networks'] += $networks;
+	// merge default networks
+	foreach ( $networks as $network ) {
+		$options['share'] += array( $network => array() );
+		$options['share'][$network] += array( 'enabled' => 0, 'icon' => '' );
+	}
 
 	// return specific option
 	if ( $option ) {
-		if ( isset( $share[ $option ] ) ) {
-			return $share[ $option ];
+		if ( isset( $options[ $option ] ) ) {
+			return $options[ $option ];
 		}
 
 		return NULL;
 	}
 
 	// return all options
-	return $share;
+	return $options;
 }
 
 /**
  * Wrapper for retrieving all available networks.
  */
 function share_networks() {
-	return share_get_option( 'networks' );
+	return share_get_option( 'share' );
 }

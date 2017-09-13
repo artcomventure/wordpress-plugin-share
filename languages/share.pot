@@ -101,3 +101,15 @@ msgstr ""
 
 msgid "Url"
 msgstr ""
+
+msgid "Absolute path to image file or string of HTML classes (for icon fonts)."
+msgstr ""
+
+msgid "Icon"
+msgstr ""
+
+msgid "Choose icon"
+msgstr ""
+
+msgid "An exclamation mark at the beginning of the network name will hide the text on frontend. Useful if you want to use icons only."
+msgstr ""

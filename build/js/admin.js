@@ -1,19 +1,42 @@
 (function ( $, window, undefined ) {
 
-    $( 'div.nav-tab-wrapper, #share ul.tabs' ).each( function() {
+    /**
+     * Icon upload,
+     */
+
+    var mediaUploader;
+
+    $( '#share-settings, #follow-settings' ).on( 'click', 'span.dashicons-format-gallery', function ( e ) {
+        var $input = $( this ).prev(),
+            mediaUploader = wp.media( {
+                title: 'Choose Image',
+                button: {
+                    text: 'Choose Image'
+                }, multiple: false
+            } ).on( 'select', function () {
+                var attachment = mediaUploader.state().get( 'selection' ).first().toJSON();
+                $input.val( attachment.url );
+            } ).open();
+    } );
+
+    /**
+     * Share.
+     */
+
+    $( 'div.nav-tab-wrapper, #share ul.tabs' ).each( function () {
         var $this = $( this ),
-            $tabs = $( 'a', $this ).on( 'click', function( e ) {
-            e.preventDefault();
+            $tabs = $( 'a', $this ).on( 'click', function ( e ) {
+                e.preventDefault();
 
-            // deselect
-            $tabs.removeClass( 'nav-tab-active' ).each( function () {
-                // hide all sections
-                $( $( this ).attr( 'href' ) ).hide();
+                // deselect
+                $tabs.removeClass( 'nav-tab-active' ).each( function () {
+                    // hide all sections
+                    $( $( this ).attr( 'href' ) ).hide();
+                } );
+
+                // activate clicked section
+                $( $( this ).blur().addClass( 'nav-tab-active' ).attr( 'href' ) ).show();
             } );
-
-            // activate clicked section
-            $( $( this ).blur().addClass( 'nav-tab-active' ).attr( 'href' ) ).show();
-        } );
 
         // activate first tab
         $this.find( 'a' ).first().trigger( 'click' );
@@ -48,7 +71,7 @@
      * Follow.
      */
 
-    var $followList = $( 'tbody', '#follow-list' ).on( 'click', 'span.dashicons-no-alt', function() {
+    var $followList = $( 'tbody', '#follow-list' ).on( 'click', 'span.dashicons-no-alt', function () {
         $( this ).closest( 'tr' ).remove();
 
         renameListOrder();
@@ -56,13 +79,13 @@
         axis: 'y',
         containment: 'parent',
         tolerance: 'pointer',
-        'start': function (event, ui) {
+        'start': function ( event, ui ) {
             ui.placeholder.html( '<tr><td colspan="2"><input type="text" /></td></tr>' )
         },
         stop: renameListOrder
     } );
 
-    $( '#add-follow-network', '#follow-settings' ).on( 'click', function( e ) {
+    $( '#add-follow-network', '#follow-settings' ).on( 'click', function ( e ) {
         e.preventDefault();
 
         // add network entry
@@ -73,10 +96,10 @@
 
     // rename order
     function renameListOrder() {
-        $( 'tr', $followList ).each( function( nb ) {
+        $( 'tr', $followList ).each( function ( nb ) {
             if ( !nb-- ) return; // ignore first (template)
 
-            $( ':input', this ).each( function() {
+            $( ':input', this ).each( function () {
                 $( this ).attr( 'name', $( this ).attr( 'name' ).replace( /^share\[follow\]\[\d*\]\[(.*)\]$/, 'share[follow][' + nb + '][$1]' ) );
             } );
         } );

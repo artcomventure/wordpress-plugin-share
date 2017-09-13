@@ -99,3 +99,9 @@ msgstr "Netzwerk hinzufügen"
 
 msgid "Network"
 msgstr "Netzwerk"
+
+msgid "Absolute path to image file or string of HTML classes (for icon fonts)."
+msgstr "Absoluter Pfad zu Bild-Datei oder HTML classes (für Icon-Schriften)."
+
+msgid "Choose icon"
+msgstr "Icon wählen"

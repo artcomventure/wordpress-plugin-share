@@ -80,9 +80,9 @@
 
 				<ul class="tabs">
 
-					<?php foreach ( $share_options['networks'] as $network => $enabled ) : ?>
+					<?php foreach ( $share_options[share] as $network => $options ) : ?>
 
-						<li<?php echo( $enabled ? ' class="enabled"' : '' ); ?>>
+						<li<?php echo( $options['enabled'] ? ' class="enabled"' : '' ); ?>>
 							<a href="#tab_<?php echo sanitize_title( $network ); ?>">
 								<?php echo $network; ?>
 							</a>
@@ -92,7 +92,7 @@
 				</ul>
 
 				<div class="panels">
-					<?php foreach ( $share_options['networks'] as $network => $enabled ) :
+					<?php foreach ( $share_options[share] as $network => $options ) :
 						$network_id = sanitize_title( $network ); ?>
 
 						<table id="tab_<?php echo $network_id; ?>" class="form-table">
@@ -128,8 +128,21 @@
 								<th><?php _e( 'Enable', 'share' ); ?></th>
 								<td>
 									<input type="checkbox" class="regular-checkbox"
-									       name="share[networks][<?php echo $network; ?>]"
-									       value="1"<?php echo( $enabled ? ' checked="checked"' : '' ) ?> />
+									       name="share[share][<?php echo $network; ?>][enabled]"
+									       value="1"<?php checked( 1, $options['enabled'] ); ?> />
+								</td>
+							</tr>
+
+							<tr valign="top">
+								<th><?php _e( 'Icon', 'share' ); ?></th>
+								<td>
+									<div class="icon-wrapper">
+										<input type="text" class="regular-text"
+										       value="<?php echo !empty( $options['icon'] ) ? $options['icon'] : ''; ?>"
+										       name="share[share][<?php echo $network; ?>][icon]" />
+										<span class="dashicons dashicons-format-gallery" title="<?php _e( 'Choose icon', 'share' ); ?>"></span>
+									</div>
+									<p class="description"><?php _e( 'Absolute path to image file or string of HTML classes (for icon fonts).', 'share' ); ?></p>
 								</td>
 							</tr>
 
@@ -139,8 +152,9 @@
 									<th><?php _e( 'Facebook AppID', 'share' ) ?></th>
 									<td>
 										<input type="text" class="regular-text"
-										       value="<?php echo( $share_options[ $network ]['app_id'] ? $share_options[ $network ]['app_id'] : '' ); ?>"
-										       name="share[<?php echo $network; ?>][app_id]"/>
+										       value="<?php echo( !empty( $options['app_id'] ) ? $options['app_id'] : '' ); ?>"
+										       name="share[share][<?php echo $network; ?>][app_id]"/>
+										<p class="description"><?php _e( 'optional' ); ?></p>
 									</td>
 								</tr>
 							<?php endif; ?>
@@ -151,8 +165,8 @@
 									<th><?php _e( 'Subject', 'share' ) ?></th>
 									<td>
 										<input type="text" class="regular-text"
-										       value="<?php echo( $share_options[ $network ]['subject'] ? $share_options[ $network ]['subject'] : '' ); ?>"
-										       name="share[<?php echo $network; ?>][subject]"
+										       value="<?php echo( !empty( $options['subject'] ) ? $options['subject'] : '' ); ?>"
+										       name="share[share][<?php echo $network; ?>][subject]"
 										       placeholder="<?php echo share_default_subject(); ?>"/>
 									</td>
 								</tr>
@@ -163,9 +177,9 @@
 								<tr valign="top">
 									<th><?php _e( 'Share text', 'share' ) ?></th>
 									<td>
-									<textarea name="share[<?php echo $network; ?>][text]"
+									<textarea name="share[share][<?php echo $network; ?>][text]"
 									          style="width:calc(25em + 1px);"
-									          placeholder="<?php echo ( ! in_array( $network, array( 'Email' ) ) ? share_default_subject() . ' ' : '' ) . share_default_text(); ?>"><?php echo( $share_options[ $network ]['text'] ? $share_options[ $network ]['text'] : '' ); ?></textarea>
+									          placeholder="<?php echo ( ! in_array( $network, array( 'Email' ) ) ? share_default_subject() . ' ' : '' ) . share_default_text(); ?>"><?php echo( !empty( $options['text'] ) ? $options['text'] : '' ); ?></textarea>
 									</td>
 								</tr>
 
@@ -201,23 +215,20 @@
 			<table id="follow-list" class="form-table">
 				<tbody>
 
-				<?php // template for entry
-				// will be overridden from first 'real' entry ?>
-				<tr style="display: none">
-					<td>
-						<span class="dashicons dashicons-move"></span>
-						<input type="text" name="share[follow][0][network]" value="" placeholder="<?php _e( 'Network', 'share' ) ?>" />
-						<input type="text" name="share[follow][0][url]" value="" placeholder="<?php _e( 'Url' ) ?>" />
-						<span class="dashicons dashicons-no-alt"></span>
-					</td>
-				</tr>
-
-				<?php foreach ( $share_options['follow'] as $nb => $network ) : ?>
-					<tr>
+				<?php // first empty array is used as template
+				foreach ( array_merge( array( array() ), $share_options['follow'], array( array() ) ) as $nb => $network ) : ?>
+					<tr<?php echo !$nb ? '  style="display: none"' : ''; ?>>
+						<?php // $nb == 0 is template
+						if ( $nb ) $nb--; // by increasing the $nb the first 'real' entry we override the template one on save ?>
 						<td>
 							<span class="dashicons dashicons-move"></span>
-							<input type="text" name="share[follow][<?php echo $nb ?>][network]" value="<?php echo $network['network'] ?>" placeholder="<?php _e( 'Network', 'share' ) ?>" />
-							<input type="text" name="share[follow][<?php echo $nb ?>][url]" value="<?php echo $network['url'] ?>" placeholder="<?php _e( 'Url', 'share' ) ?>" />
+							<input type="text" name="share[follow][<?php echo $nb ?>][network]" value="<?php echo !empty( $network['network'] ) ? $network['network'] : ''; ?>" placeholder="<?php _e( 'Network', 'share' ) ?>" />
+							<input type="text" name="share[follow][<?php echo $nb ?>][url]" value="<?php echo !empty( $network['url'] ) ? $network['url'] : ''; ?>" placeholder="<?php _e( 'Url', 'share' ) ?>" />
+							<div class="icon-wrapper">
+								<input type="text" name="share[follow][<?php echo $nb ?>][icon]" value="<?php echo !empty( $network['icon'] ) ? $network['icon'] : ''; ?>" placeholder="<?php _e( 'Icon', 'share' ) ?>" />
+								<span class="dashicons dashicons-format-gallery" title="<?php _e( 'Choose icon', 'share' ); ?>"></span>
+							</div>
+							<span class="dashicons dashicons-editor-help" title="<?php _e( 'Absolute path to image file or string of HTML classes (for icon fonts).', 'share' ); ?>"></span>
 							<span class="dashicons dashicons-no-alt"></span>
 						</td>
 					</tr>
