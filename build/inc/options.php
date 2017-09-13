@@ -143,9 +143,9 @@ function share_get_options( $option = '' ) {
 
 	// default networks
 	$networks = array(
-		'Facebook' => 1,
-		'Google+' => 1,
-		'Twitter' => 1,
+		'Facebook' => 0,
+		'Google+' => 0,
+		'Twitter' => 0,
 		'Email' => 0,
 		'Linkedin' => 0,
 		'Pinterest' => 0,

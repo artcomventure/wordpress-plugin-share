@@ -4,6 +4,11 @@
 
 * Add more networks
 
+## 1.3.2 - 2017-09-13
+**Fixed**
+
+* Removed default follow option.
+
 ## 1.3.1 - 2017-05-30
 **Removed**
 
