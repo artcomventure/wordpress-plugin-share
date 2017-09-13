@@ -28,7 +28,7 @@ function share_enqueue_scripts() {
 
 	// load default styles
 	if ( share_get_option( 'css' ) ) {
-		wp_enqueue_style( 'share-standard', SHARE_PLUGIN_URL . 'css/share.standard.min.css', array(), '20170913' );
+		wp_register_style( 'share-standard', SHARE_PLUGIN_URL . 'css/share.standard.min.css', array(), '20170913' );
 
 		if ( $networks = share_get_option( 'follow' ) ) {
 			$favicons = '';

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.1 - 2017-09-13
+**Fixed**
+
+* wp_register_style vs wp_enqueue_style
+
 ## 1.4.0 - 2017-09-13
 **Added**
 
