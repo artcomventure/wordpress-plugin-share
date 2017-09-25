@@ -53,22 +53,35 @@ function hook__share_count_NETWORK( $api, $network ) {
 }
 
 /**
- * Alter meta data.
+ * Alter meta raw data.
  *
  * @param array $meta
  *
  * @return array
  */
 add_filter( 'share_meta', 'hook__share_meta' );
-function hook__share_meta( $meta ) {
+function hook__share_rawmeta( $meta ) {
 	return $meta;
+}
+
+/**
+ * Alter meta data.
+ *
+ * @param array $output
+ * @param array $meta
+ *
+ * @return array
+ */
+add_filter( 'share_meta', 'hook__share_meta', 10, 2 );
+function hook__share_meta( $output, $meta ) {
+	return $output;
 }
 
 /**
  * Patterns (key) to replaced by (value).
  *
  * @param array $patterns
- * @param bool $description     Indicator for dynamic values.
+ * @param bool $description Indicator for dynamic values.
  *
  * @return array
  */

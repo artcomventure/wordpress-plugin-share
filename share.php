@@ -4,7 +4,7 @@
  * Plugin Name: Share
  * Plugin URI: https://github.com/artcomventure/wordpress-plugin-share
  * Description: Spread your content over social networks and more (Facebook, Twitter, Google+, Pinterest, Tumblr, Whatsapp, SMS, Email).
- * Version: 1.4.0
+ * Version: 1.4.2
  * Text Domain: share
  * Author: artcom venture GmbH
  * Author URI: http://www.artcom-venture.de/
@@ -49,8 +49,8 @@ function share_enqueue_scripts() {
 /**
  * i18n.
  */
-add_action( 'after_setup_theme', 'share__after_setup_theme' );
-function share__after_setup_theme() {
+add_action( 'after_setup_theme', 'share_t9n' );
+function share_t9n() {
 	load_theme_textdomain( 'share', SHARE_PLUGIN_DIR . 'languages' );
 }
 
@@ -62,7 +62,7 @@ function share__after_setup_theme() {
  *
  * @return mixed
  */
-function share_counts( $url = '', $cache = TRUE ) {
+function share_counts( $url = '', $cache = true ) {
 	$post = get_post();
 
 	if ( ! $url && ! ( $url = get_the_permalink() ) ) {
@@ -75,13 +75,16 @@ function share_counts( $url = '', $cache = TRUE ) {
 
 	// string to boolean
 	if ( ! is_bool( $cache ) ) {
-		$cache = ( ! in_array( strtolower( $cache ), array( 'false', '0' ) ) ? TRUE : FALSE );
+		$cache = ( ! in_array( strtolower( $cache ), array(
+			'false',
+			'0'
+		) ) ? true : false );
 	}
 
 	$networks = share_networks();
 
 	if ( $cache
-	     && ( $shares = get_metadata( 'post', $post->ID, '_shares', TRUE ) )
+	     && ( $shares = get_metadata( 'post', $post->ID, '_shares', true ) )
 	     // one hour cache
 	     && HOUR_IN_SECONDS > time() - $shares['_updated']
 	     // number of $shares = number of $networks + 2 (_overall and _updated)
@@ -98,7 +101,7 @@ function share_counts( $url = '', $cache = TRUE ) {
 	);
 
 	$ch = curl_init();
-	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
+	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
 	curl_setopt( $ch, CURLOPT_HTTPHEADER, array( 'Content-type: application/json' ) );
 
 	foreach ( $networks as $network => $enabled ) {
@@ -108,14 +111,14 @@ function share_counts( $url = '', $cache = TRUE ) {
 				break;
 
 			case 'Facebook':
-                $api = array(
-                    'url' => 'http://graph.facebook.com/?' . build_query( array(
-                            'id' => $url,
-                        ) ),
-                    'callback' => function ( $json ) {
-                        return $json->share->share_count;
-                    }
-                );
+				$api = array(
+					'url' => 'http://graph.facebook.com/?' . build_query( array(
+							'id' => $url,
+						) ),
+					'callback' => function ( $json ) {
+						return $json->share->share_count;
+					}
+				);
 				break;
 
 			case 'Pinterest':
@@ -145,7 +148,7 @@ function share_counts( $url = '', $cache = TRUE ) {
 							'method' => 'pos.plusones.get',
 							'id' => 'p',
 							'params' => array(
-								'nolog' => TRUE,
+								'nolog' => true,
 								'id' => $url,
 								'source' => 'widget',
 								'userId' => '@viewer',
@@ -217,23 +220,18 @@ function share_counts( $url = '', $cache = TRUE ) {
 	return $shares;
 }
 
-// meta tags (og, twitter, ...)
-include( SHARE_PLUGIN_DIR . 'inc/meta.php' );
-// share links as widget
-include( SHARE_PLUGIN_DIR . 'inc/widgets.php' );
-// theme share links
-include( SHARE_PLUGIN_DIR . 'inc/theme.php' );
-// options
-include( SHARE_PLUGIN_DIR . 'inc/options.php' );
-// shortcodes
-include( SHARE_PLUGIN_DIR . 'inc/shortcodes.php' );
+include( SHARE_PLUGIN_DIR . 'inc/meta.php' ); // meta tags (og, twitter, ...)
+include( SHARE_PLUGIN_DIR . 'inc/widgets.php' ); // share links as widget
+include( SHARE_PLUGIN_DIR . 'inc/theme.php' ); // theme share links
+include( SHARE_PLUGIN_DIR . 'inc/options.php' ); // options
+include( SHARE_PLUGIN_DIR . 'inc/shortcodes.php' ); // shortcodes
 
 /**
  * Remove update notification.
  * Plugin isn't hosted on WordPress.
  */
-add_filter( 'site_transient_update_plugins', 'share__site_transient_update_plugins' );
-function share__site_transient_update_plugins( $value ) {
+add_filter( 'site_transient_update_plugins', 'remove_shares_update_notification' );
+function remove_shares_update_notification( $value ) {
 	$plugin_file = plugin_basename( __FILE__ );
 
 	if ( isset( $value->response[ $plugin_file ] ) ) {
@@ -246,8 +244,8 @@ function share__site_transient_update_plugins( $value ) {
 /**
  * Change details link to GitHub repository.
  */
-add_filter( 'plugin_row_meta', 'share__plugin_row_meta', 10, 2 );
-function share__plugin_row_meta( $links, $file ) {
+add_filter( 'plugin_row_meta', 'share_plugin_row_meta', 10, 2 );
+function share_plugin_row_meta( $links, $file ) {
 	if ( plugin_basename( __FILE__ ) == $file ) {
 		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $file );
 
@@ -265,6 +263,5 @@ function share__plugin_row_meta( $links, $file ) {
 register_deactivation_hook( __FILE__, 'share_deactivate' );
 function share_deactivate() {
 	delete_option( 'share' );
-
-	delete_metadata( 'post', NULL, '_shares', '', TRUE );
+	delete_metadata( 'post', NULL, '_shares', '', true );
 }

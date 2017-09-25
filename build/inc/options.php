@@ -48,16 +48,16 @@ function share_default_text() {
  *
  * @return array
  */
-function share_patterns( $description = FALSE ) {
+function share_patterns( $description = false ) {
 	$patterns = apply_filters( 'share_patterns', array(), $description );
 
 	// merge default
 	$patterns = array(
-		'url' => get_the_permalink(),
-		'title' => get_the_title(),
-		'sitename' => get_bloginfo( 'sitename' ),
-		'siteurl' => get_bloginfo( 'siteurl' ),
-	) + $patterns;
+		            'url' => get_the_permalink(),
+		            'title' => get_the_title(),
+		            'sitename' => get_bloginfo( 'sitename' ),
+		            'siteurl' => get_bloginfo( 'siteurl' ),
+	            ) + $patterns;
 
 	// replace dynamic value by its description
 	if ( $description ) {
@@ -117,13 +117,14 @@ function share_get_options( $option = '' ) {
 		$options['share'] = array();
 
 		foreach ( $options['networks'] as $network => $enabled ) {
-			if ( isset( $options[$network] ) ) {
-				$options['share'][$network] = $options[$network];
-				unset( $options[$network] );
+			if ( isset( $options[ $network ] ) ) {
+				$options['share'][ $network ] = $options[ $network ];
+				unset( $options[ $network ] );
+			} else {
+				$options['share'][ $network ] = array();
 			}
-			else $options['share'][$network] = array();
 
-			$options['share'][$network] = array( 'enabled' => $enabled ) + $options['share'][$network];
+			$options['share'][ $network ] = array( 'enabled' => $enabled ) + $options['share'][ $network ];
 		}
 
 		unset( $options['networks'] );
@@ -142,7 +143,12 @@ function share_get_options( $option = '' ) {
 
 	// get all post types
 	$post_types = array_filter( get_post_types(), function ( $post_type ) {
-		return ! in_array( $post_type, array( 'revision', 'nav_menu_item', 'custom_css', 'customize_changeset' ) );
+		return ! in_array( $post_type, array(
+			'revision',
+			'nav_menu_item',
+			'custom_css',
+			'customize_changeset'
+		) );
 	} );
 
 	// merge post types
@@ -177,14 +183,15 @@ function share_get_options( $option = '' ) {
 
 	// check if saved (option) networks are still supported
 	foreach ( $options['share'] as $network => $config ) {
-		if ( ! in_array( $network, $networks ) )
+		if ( ! in_array( $network, $networks ) ) {
 			unset( $options['share'][ $network ] );
+		}
 	}
 
 	// merge default networks
 	foreach ( $networks as $network ) {
 		$options['share'] += array( $network => array() );
-		$options['share'][$network] += array( 'enabled' => 0, 'icon' => '' );
+		$options['share'][ $network ] += array( 'enabled' => 0, 'icon' => '' );
 	}
 
 	// return specific option

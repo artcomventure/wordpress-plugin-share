@@ -8,7 +8,7 @@
  *
  * @return string
  */
-function share_links( $url = '', $cache = TRUE ) {
+function share_links( $url = '', $cache = true ) {
 	echo get_share_links( $url, $cache );
 }
 
@@ -20,7 +20,7 @@ function share_links( $url = '', $cache = TRUE ) {
  *
  * @return string
  */
-function get_share_links( $url = '', $cache = TRUE ) {
+function get_share_links( $url = '', $cache = true ) {
 	if ( empty( $url ) ) {
 		$url = get_the_permalink();
 	}
@@ -60,7 +60,7 @@ function get_share_links( $url = '', $cache = TRUE ) {
 						? _n( '%d like', '%d likes', $shares[ $network ], 'share' ) : '' ),
 					'href' => 'http://www.facebook.com/dialog/share_open_graph',
 					'query' => array(
-						'app_id' => $share_options[ $network ]['app_id'] ? $share_options[ $network ]['app_id'] : null,
+						'app_id' => $share_options[ $network ]['app_id'] ? $share_options[ $network ]['app_id'] : NULL,
 						'display' => 'popup',
 						'action_type' => 'og.likes',
 						'action_properties' => json_encode( array( 'object' => $url ) ),
@@ -140,7 +140,7 @@ function get_share_links( $url = '', $cache = TRUE ) {
 				$link = array(
 					'href' => 'https://www.linkedin.com/shareArticle',
 					'query' => array(
-						'mini' => TRUE,
+						'mini' => true,
 						'url' => $url,
 						'title' => get_the_title(),
 						'summary' => strip_tags( strip_shortcodes( get_the_content() ) ),
@@ -181,8 +181,11 @@ function get_share_links( $url = '', $cache = TRUE ) {
 				$networks[ $network ] = $link['prefix'];
 				$networks[ $network ] .= '<a class="share__link share__' . sanitize_title( $network ) . '" href=\'';
 				$networks[ $network ] .= ( ! empty( $link['query'] ) ? add_query_arg( $link['query'], $link['href'] ) : $link['href'] ) . '\'>';
-				if ( filter_var( trim( $share_options['share'][ $network ]['icon'] ), FILTER_VALIDATE_URL) ) $networks[ $network ] .= '<img src="' . $share_options['share'][ $network ]['icon'] . '" />';
-				else if ( trim( $share_options['share'][ $network ]['icon'] ) ) $networks[ $network ] .= '<i class="' . trim( $share_options['share'][ $network ]['icon'] ) . '"></i>';
+				if ( filter_var( trim( $share_options['share'][ $network ]['icon'] ), FILTER_VALIDATE_URL ) ) {
+					$networks[ $network ] .= '<img src="' . $share_options['share'][ $network ]['icon'] . '" />';
+				} else if ( trim( $share_options['share'][ $network ]['icon'] ) ) {
+					$networks[ $network ] .= '<i class="' . trim( $share_options['share'][ $network ]['icon'] ) . '"></i>';
+				}
 				$networks[ $network ] .= '<span' . ( trim( $share_options['share'][ $network ]['icon'] ) ? ' class="screen-reader-text"' : '' ) . '>' . sprintf( $link['text'], $link['count'] ) . '</span>';
 				$networks[ $network ] .= '</a>' . $link['suffix'];
 			}
@@ -208,7 +211,7 @@ function get_share_links( $url = '', $cache = TRUE ) {
 add_filter( 'share_link_facebook', 'share_link_facebook', 100 );
 function share_link_facebook( $link ) {
 	// Facebook fallback sharer
-	if ( !isset( $link['query']['app_id'] ) || ! is_numeric( $link['query']['app_id'] ) ) {
+	if ( ! isset( $link['query']['app_id'] ) || ! is_numeric( $link['query']['app_id'] ) ) {
 		$action_properties = json_decode( $link['query']['action_properties'] );
 
 		$link = array(
@@ -324,8 +327,11 @@ function get_follow_links() {
 
 	foreach ( share_get_option( 'follow' ) as $network ) {
 		$icon = '';
-		if ( filter_var( $network['icon'], FILTER_VALIDATE_URL) ) $icon = '<img src="' . $network['icon'] . '" />';
-		else if ( trim( $network['icon'] ) ) $icon = '<i class="' . trim( $network['icon'] ) . '"></i>';
+		if ( filter_var( $network['icon'], FILTER_VALIDATE_URL ) ) {
+			$icon = '<img src="' . $network['icon'] . '" />';
+		} else if ( trim( $network['icon'] ) ) {
+			$icon = '<i class="' . trim( $network['icon'] ) . '"></i>';
+		}
 
 		$link = '<a class="follow__link follow__' . sanitize_title( $network['network'] ) . '" title="' . sprintf( __( 'Follow us on %s', 'share' ), $network['network'] ) . '" href="' . $network['url'] . '" target="_blank">' .
 		        $icon . '<span' . ( $icon ? ' class="screen-reader-text"' : '' ) . '>' . $network['network'] . '</span>' .
@@ -334,7 +340,9 @@ function get_follow_links() {
 		// let others change links
 		$link = apply_filters( 'follow_link', $link, $network );
 
-		if ( $link ) $networks[] = $link;
+		if ( $link ) {
+			$networks[] = $link;
+		}
 	}
 
 	// no links at all

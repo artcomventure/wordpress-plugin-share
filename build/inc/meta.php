@@ -12,7 +12,7 @@ function share__wp_head() {
 	if ( $more && ( $post = get_post() ) && $post_types[ $post->post_type ] ) {
 		$meta = array(
 			'title' => get_the_title(),
-			'description' => strip_tags( strip_shortcodes( $post->post_content ) ),
+			'description' => $post->post_content,
 			'url' => get_the_permalink(),
 		);
 
@@ -41,36 +41,45 @@ function share__wp_head() {
 		}
 	}
 
-	$meta['description'] = preg_replace( '/(\\n|\\r)/', ' ', $meta['description'] );
+	// plain title/description
+	$meta['title'] = preg_replace( '/(\\n|\\r)+/', ' ', strip_tags( str_replace( '<', ' <', $meta['title'] ) ) );
+	$meta['title'] = preg_replace( '/\s+/', ' ', $meta['title'] );
+	$meta['description'] = trim( preg_replace( '/(\\n|\\r)+/', ' ', strip_tags( str_replace( '<', ' <', strip_shortcodes( $meta['description'] ) ) ) ) );
 	$meta['description'] = preg_replace( '/\s+/', ' ', $meta['description'] );
 
 	// let others change meta data
-	$meta = apply_filters( 'share_meta', array_filter( $meta ) );
 	$meta = array_filter( $meta );
+	$meta = apply_filters( 'share_rawmeta', $meta );
 
-	$output = array();
+	$output = array(
+		'<meta name="twitter:card" content="summary" />'
+	);
 
-	if ( ! empty( $meta['image'] ) ) {
-		foreach ( array( 'og:image', 'twitter:image:src' ) as $property ) {
-			$output[] = '<meta property="' . $property . '" content="' . $meta['image'] . '" />';
-		}
-	}
-
-	// title
-	if ( ! empty( $meta['title'] ) ) {
-		foreach ( array( 'og:title', 'twitter:title' ) as $property ) {
-			$output[] = '<meta property="' . $property . '" content="' . $meta['title'] . '" />';
-		}
-	}
-
-	// og
-	foreach ( array( 'description', 'url', 'site_name', 'locale' ) as $property ) {
+	foreach (
+		array(
+			'image' => array( 'og', 'twitter' ),
+			'title' => array( 'og', 'twitter' ),
+			'description' => array( '', 'og', 'twitter' ),
+			'url' => array( 'og' ),
+			'site_name' => array( 'og' ),
+			'locale' => array( 'og' ),
+		) as $property => $protocols
+	) {
 		if ( empty( $meta[ $property ] ) ) {
 			continue;
 		}
 
-		$output[] = '<meta property="' . $property . '" content="' . $meta[ $property ] . '" />';
+		if ( ! is_array( $protocols ) ) {
+			$protocols = array( $protocols );
+		}
+
+		foreach ( $protocols as $protocol ) {
+			if ( $protocol ) {
+				$protocol .= ':';
+			}
+			$output[ $protocol . $property ] = '<meta property="' . $protocol . $property . '" content="' . $meta[ $property ] . '" />';
+		}
 	}
 
-	echo implode( "\n", $output ) . "\n";
+	echo implode( "\n", apply_filters( 'share_meta', $output, $meta ) ) . "\n";
 }

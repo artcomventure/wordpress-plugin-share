@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.2 - 2017-09-25
+**Added**
+
+* Add specific Open Graph and Twitter meta tags for title and description since Facebook seems to ignore default ones :/
+
 ## 1.4.1 - 2017-09-13
 **Fixed**
 
