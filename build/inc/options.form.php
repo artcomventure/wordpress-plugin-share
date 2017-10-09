@@ -80,7 +80,7 @@
 
 				<ul class="tabs">
 
-					<?php foreach ( $share_options[share] as $network => $options ) : ?>
+					<?php foreach ( $share_options['share'] as $network => $options ) : ?>
 
 						<li<?php echo( $options['enabled'] ? ' class="enabled"' : '' ); ?>>
 							<a href="#tab_<?php echo sanitize_title( $network ); ?>">
@@ -92,7 +92,7 @@
 				</ul>
 
 				<div class="panels">
-					<?php foreach ( $share_options[share] as $network => $options ) :
+					<?php foreach ( $share_options['share'] as $network => $options ) :
 						$network_id = sanitize_title( $network ); ?>
 
 						<table id="tab_<?php echo $network_id; ?>" class="form-table">

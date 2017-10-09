@@ -76,6 +76,11 @@ Don't hesitate! [Issues](https://github.com/artcomventure/wordpress-plugin-share
 
 == Changelog ==
 
+= 1.4.3 - 2017-10-09 =
+**Fixed**
+
+* PHP errors.
+
 = 1.4.2 - 2017-09-25 =
 **Added**
 

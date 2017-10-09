@@ -56,7 +56,7 @@ function share_patterns( $description = false ) {
 		            'url' => get_the_permalink(),
 		            'title' => get_the_title(),
 		            'sitename' => get_bloginfo( 'sitename' ),
-		            'siteurl' => get_bloginfo( 'siteurl' ),
+		            'siteurl' => get_bloginfo( 'url' ),
 	            ) + $patterns;
 
 	// replace dynamic value by its description
@@ -132,7 +132,7 @@ function share_get_options( $option = '' ) {
 
 	// merge default
 	$options = array_filter( $options ) + array(
-			'count' => 0,
+			'counts' => 0,
 			'post_types' => array(),
 			'share' => array(), // @since 1.4.0 (prior 'networks')
 			'follow' => array() // @since 1.3.0
@@ -140,6 +140,14 @@ function share_get_options( $option = '' ) {
 
 	// remove empty entries
 	$options['follow'] = array_values( array_filter( array_map( 'array_filter', $options['follow'] ) ) );
+	foreach ( $options['follow'] as $key => $data ) {
+		$options['follow'][$key] += array( 'network' => '', 'url' => '', 'icon' => '' );
+
+		// no url no follow
+		if ( !$options['follow'][$key]['url'] ) {
+			unset( $options['follow'][$key] );
+		}
+	}
 
 	// get all post types
 	$post_types = array_filter( get_post_types(), function ( $post_type ) {

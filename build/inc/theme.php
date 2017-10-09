@@ -60,7 +60,7 @@ function get_share_links( $url = '', $cache = true ) {
 						? _n( '%d like', '%d likes', $shares[ $network ], 'share' ) : '' ),
 					'href' => 'http://www.facebook.com/dialog/share_open_graph',
 					'query' => array(
-						'app_id' => $share_options[ $network ]['app_id'] ? $share_options[ $network ]['app_id'] : NULL,
+						'app_id' => !empty( $share_options[ $network ]['app_id'] ) ? $share_options[ $network ]['app_id'] : NULL,
 						'display' => 'popup',
 						'action_type' => 'og.likes',
 						'action_properties' => json_encode( array( 'object' => $url ) ),
@@ -186,7 +186,7 @@ function get_share_links( $url = '', $cache = true ) {
 				} else if ( trim( $share_options['share'][ $network ]['icon'] ) ) {
 					$networks[ $network ] .= '<i class="' . trim( $share_options['share'][ $network ]['icon'] ) . '"></i>';
 				}
-				$networks[ $network ] .= '<span' . ( trim( $share_options['share'][ $network ]['icon'] ) ? ' class="screen-reader-text"' : '' ) . '>' . sprintf( $link['text'], $link['count'] ) . '</span>';
+				$networks[ $network ] .= '<span' . ( trim( $share_options['share'][ $network ]['icon'] ) ? ' class="screen-reader-text"' : '' ) . '>' . sprintf( $link['text'], ( isset( $link['count'] ) ? $link['count'] : '' ) ) . '</span>';
 				$networks[ $network ] .= '</a>' . $link['suffix'];
 			}
 		}
@@ -334,7 +334,7 @@ function get_follow_links() {
 		}
 
 		$link = '<a class="follow__link follow__' . sanitize_title( $network['network'] ) . '" title="' . sprintf( __( 'Follow us on %s', 'share' ), $network['network'] ) . '" href="' . $network['url'] . '" target="_blank">' .
-		        $icon . '<span' . ( $icon ? ' class="screen-reader-text"' : '' ) . '>' . $network['network'] . '</span>' .
+		        $icon . '<span' . ( $icon ? ' class="screen-reader-text"' : '' ) . '>' . ( !empty( $network['network'] ) ? $network['network'] : $network['url'] ) . '</span>' .
 		        '</a>';
 
 		// let others change links
