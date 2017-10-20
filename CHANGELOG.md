@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.4 - 2017-10-20
+**Fixed**
+
+* Justify share items to flex-start.
+
 ## 1.4.3 - 2017-10-09
 **Fixed**
 

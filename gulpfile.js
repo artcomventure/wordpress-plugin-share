@@ -42,6 +42,7 @@ var gulp = require( 'gulp' ),
     cssFiles = [
         'css/**/*.css',
         // ... but already minimized ones
+        '!**/*admin*.css',
         '!**/*.min.css'
     ],
 
@@ -165,7 +166,7 @@ gulp.task( 'build', ['clear:build', 'css', 'js'], function() {
  *
  * Init watches by calling 'gulp' in terminal.
  */
-gulp.task( 'default', function() {
+gulp.task( 'default', ['css', 'js', 'po2mo'], function() {
     gulp.watch( scssFiles, ['css'] );
     gulp.watch( jsFiles, ['js'] );
     gulp.watch( poFiles, ['po2mo'] );
