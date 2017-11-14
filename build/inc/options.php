@@ -184,6 +184,7 @@ function share_get_options( $option = '' ) {
 		'SMS',
 		'Tumblr',
 		'Whatsapp',
+		'Xing',
 	);
 
 	// let others extend networks

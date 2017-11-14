@@ -152,6 +152,15 @@ function get_share_links( $url = '', $cache = true ) {
 					$link['query']['summary'] = $summary . ' ...';
 				}
 				break;
+
+            case 'Xing':
+                $link = array(
+                    'href' => 'https://www.xing-share.com/app/user',
+                    'query' => array(
+                        'op' => 'share;sc_p=xing-share;url=' . $url,
+                    ),
+                );
+                break;
 		}
 
 		// merge defaults
