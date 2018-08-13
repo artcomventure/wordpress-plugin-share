@@ -76,6 +76,11 @@ Don't hesitate! [Issues](https://github.com/artcomventure/wordpress-plugin-share
 
 == Changelog ==
 
+= 1.5.1 - 2018-08-13 =
+**Changed**
+
+* If standard CSS is excluded: no default share styles at all.
+
 = 1.5.0 - 2017-11-14 =
 **Added**
 

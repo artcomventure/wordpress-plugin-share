@@ -4,7 +4,7 @@
  * Plugin Name: Share
  * Plugin URI: https://github.com/artcomventure/wordpress-plugin-share
  * Description: Spread your content over social networks and more (Facebook, Twitter, Google+, Pinterest, Tumblr, Whatsapp, SMS, Email).
- * Version: 1.5.0
+ * Version: 1.5.1
  * Text Domain: share
  * Author: artcom venture GmbH
  * Author URI: http://www.artcom-venture.de/
@@ -24,11 +24,10 @@ if ( ! defined( 'SHARE_PLUGIN_DIR' ) ) {
 add_action( 'wp_enqueue_scripts', 'share_enqueue_scripts' );
 function share_enqueue_scripts() {
 	wp_enqueue_script( 'share', SHARE_PLUGIN_URL . 'js/share.min.js', array(), '20160202' );
-	wp_enqueue_style( 'share', SHARE_PLUGIN_URL . 'css/share.min.css', array(), '20170913' );
 
 	// load default styles
 	if ( share_get_option( 'css' ) ) {
-		wp_register_style( 'share-standard', SHARE_PLUGIN_URL . 'css/share.standard.min.css', array(), '20170913' );
+		wp_register_style( 'share', SHARE_PLUGIN_URL . 'css/share.min.css', array(), '20180813' );
 
 		if ( $networks = share_get_option( 'follow' ) ) {
 			$favicons = '';
@@ -39,10 +38,10 @@ function share_enqueue_scripts() {
 }';
 			}
 
-			wp_add_inline_style( 'share-standard', $favicons );
+			wp_add_inline_style( 'share', $favicons );
 		}
 
-		wp_enqueue_style( 'share-standard' );
+		wp_enqueue_style( 'share' );
 	}
 }
 
