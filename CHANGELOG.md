@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.5.2 - 2018-10-05
+**Fixed**
+
+* Default texts.
+
 ## 1.5.1 - 2018-08-13
 **Changed**
 

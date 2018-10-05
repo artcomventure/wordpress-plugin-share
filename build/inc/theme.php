@@ -253,18 +253,18 @@ function share_link_mobile( $link ) {
  */
 add_filter( 'share_link', 'share_link_default_texts' );
 function share_link_default_texts( $link ) {
-	if ( in_array( $link['network'], array( 'Email', 'Whatsapp', 'SMS' ) )
-	     && ( $options = share_get_option( $link['network'] ) )
-	) {
-		if ( ! $subject = $options['subject'] ) {
+	if ( in_array( $link['network'], array( 'Email', 'Whatsapp', 'SMS' ) ) ) {
+		$options = share_get_option( $link['network'] );
+
+		if ( !$options || empty($subject = $options['subject']) ) {
 			$subject = share_default_subject();
 		}
 
-		if ( ! $text = $options['text'] ) {
+		if ( !$options || empty($text = $options['text']) ) {
 			$text = share_default_text();
 		}
 
-		if ( ! isset( $options['subject'] ) ) {
+		if ( !$options || ! isset( $options['subject'] ) ) {
 			$text = $subject . ' ' . $text;
 		}
 
