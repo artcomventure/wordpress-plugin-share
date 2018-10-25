@@ -80,6 +80,7 @@ Don't hesitate! [Issues](https://github.com/artcomventure/wordpress-plugin-share
 **Fixed**
 
 * Get $post by URL.
+* Link click listener on EVERY (also ajax loaded) share link.
 
 = 1.5.2 - 2018-10-05 =
 **Fixed**
