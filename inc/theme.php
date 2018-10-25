@@ -29,7 +29,7 @@ function get_share_links( $url = '', $cache = true ) {
 	$networks = $share_options['share'];
 	$post_types = $share_options['post_types'];
 
-	if ( ! ( $post = get_post() ) || ! $post_types[ $post->post_type ] ) {
+	if ( ! ( $post = get_post( url_to_postid( $url ) ) ) || ! $post_types[ $post->post_type ] ) {
 		return '';
 	}
 

@@ -76,6 +76,11 @@ Don't hesitate! [Issues](https://github.com/artcomventure/wordpress-plugin-share
 
 == Changelog ==
 
+= 1.5.3 - 2018-10-25 =
+**Fixed**
+
+* Get $post by URL.
+
 = 1.5.2 - 2018-10-05 =
 **Fixed**
 
