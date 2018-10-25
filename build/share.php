@@ -23,7 +23,7 @@ if ( ! defined( 'SHARE_PLUGIN_DIR' ) ) {
  */
 add_action( 'wp_enqueue_scripts', 'share_enqueue_scripts' );
 function share_enqueue_scripts() {
-	wp_enqueue_script( 'share', SHARE_PLUGIN_URL . 'js/share.min.js', array(), '20160202' );
+	wp_enqueue_script( 'share', SHARE_PLUGIN_URL . 'js/share.min.js', array(), '20181025' );
 
 	// load default styles
 	if ( share_get_option( 'css' ) ) {
