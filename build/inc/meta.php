@@ -74,10 +74,14 @@ function share__wp_head() {
 		}
 
 		foreach ( $protocols as $protocol ) {
-			if ( $protocol ) {
-				$protocol .= ':';
-			}
-			$output[ $protocol . $property ] = '<meta property="' . $protocol . $property . '" content="' . $meta[ $property ] . '" />';
+            $output[ "{$protocol}:{$property}" ] = '<meta property="' . "{$protocol}:{$property}" . '" content="' . $meta[ $property ] . '" />';
+
+            // add image dimensions
+            if ( "{$protocol}:{$property}" == 'og:image' && ($size = getimagesize( $meta[ $property ] )) ) {
+                foreach ( array( 'width', 'height' ) as $key => $attribute ) {
+                    $output[ "{$protocol}:{$property}:{$attribute}" ] = '<meta property="' . "{$protocol}:{$property}:{$attribute}" . '" content="' . $size[$key] . '" />';
+                }
+            }
 		}
 	}
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.6.0 - 2019-01-23
+**Added**
+
+* og:image:DIMENSION
+
 ## 1.5.3 - 2018-10-25
 **Fixed**
 
