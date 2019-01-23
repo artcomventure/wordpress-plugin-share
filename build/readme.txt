@@ -76,6 +76,11 @@ Don't hesitate! [Issues](https://github.com/artcomventure/wordpress-plugin-share
 
 == Changelog ==
 
+= 1.6.1 - 2019-01-23 =
+**Changed**
+
+* twitter:card now 'summary_large_image' (before 'summary')
+
 = 1.6.0 - 2019-01-23 =
 **Added**
 

@@ -52,7 +52,7 @@ function share__wp_head() {
 	$meta = apply_filters( 'share_rawmeta', $meta );
 
 	$output = array(
-		'<meta name="twitter:card" content="summary" />'
+		'<meta name="twitter:card" content="summary' . (!empty($meta['image']) ? '_large_image' : '') . '" />'
 	);
 
 	foreach (
