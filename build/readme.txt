@@ -76,6 +76,11 @@ Don't hesitate! [Issues](https://github.com/artcomventure/wordpress-plugin-share
 
 == Changelog ==
 
+= 1.6.2 - 2019-01-25 =
+**Fixed**
+
+* Prevent getimagesize warning/error.
+
 = 1.6.1 - 2019-01-23 =
 **Changed**
 
