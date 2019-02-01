@@ -1,5 +1,9 @@
 <?php
 
+// let Yoast do the work
+include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) return;
+
 /**
  * Add meta tags.
  */

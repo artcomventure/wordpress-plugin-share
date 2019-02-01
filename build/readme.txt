@@ -76,6 +76,11 @@ Don't hesitate! [Issues](https://github.com/artcomventure/wordpress-plugin-share
 
 == Changelog ==
 
+= 1.6.3 - 2019-02-01 =
+**Fixed**
+
+* Remove duplicated meta tags (Share vs Yoast).
+
 = 1.6.2 - 2019-01-25 =
 **Fixed**
 
