@@ -76,6 +76,11 @@ Don't hesitate! [Issues](https://github.com/artcomventure/wordpress-plugin-share
 
 == Changelog ==
 
+= 1.6.4 - 2019-02-08 =
+**Fixed**
+
+* Meta tags' property.
+
 = 1.6.3 - 2019-02-01 =
 **Fixed**
 

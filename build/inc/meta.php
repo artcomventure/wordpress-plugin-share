@@ -16,7 +16,7 @@ function share__wp_head() {
 	if ( $more && ( $post = get_post() ) && $post_types[ $post->post_type ] ) {
 		$meta = array(
 			'title' => get_the_title(),
-			'description' => $post->post_content,
+            'description' => trim($post->post_excerpt) ? $post->post_excerpt : $post->post_content,
 			'url' => get_the_permalink(),
 		);
 
@@ -55,9 +55,7 @@ function share__wp_head() {
 	$meta = array_filter( $meta );
 	$meta = apply_filters( 'share_rawmeta', $meta );
 
-	$output = array(
-		'<meta name="twitter:card" content="summary' . (!empty($meta['image']) ? '_large_image' : '') . '" />'
-	);
+    $output = array();
 
 	foreach (
 		array(
@@ -69,7 +67,7 @@ function share__wp_head() {
 			'locale' => array( 'og' ),
 		) as $property => $protocols
 	) {
-		if ( empty( $meta[ $property ] ) ) {
+		if ( empty( $content = $meta[ $property ] ) ) {
 			continue;
 		}
 
@@ -78,12 +76,18 @@ function share__wp_head() {
 		}
 
 		foreach ( $protocols as $protocol ) {
-            $output[ "{$protocol}:{$property}" ] = '<meta property="' . "{$protocol}:{$property}" . '" content="' . $meta[ $property ] . '" />';
+            // add twitter card if needed
+            if ( $protocol == 'twitter' && !isset($output['twitter:card']) ) {
+                $output['twitter:card'] = '<meta name="twitter:card" content="summary' . (!empty($meta['image']) ? '_large_image' : '') . '" />';
+            }
+
+            $prop = implode( ':', array_filter(array( $protocol, $property )) );
+            $output[ $prop ] = '<meta property="' . $prop . '" content="' . $content . '" />';
 
             // add image dimensions
-            if ( "{$protocol}:{$property}" == 'og:image' && ($size = @getimagesize( $meta[ $property ] )) ) {
+            if ( $prop == 'og:image' && ($size = @getimagesize( $content )) ) {
                 foreach ( array( 'width', 'height' ) as $key => $attribute ) {
-                    $output[ "{$protocol}:{$property}:{$attribute}" ] = '<meta property="' . "{$protocol}:{$property}:{$attribute}" . '" content="' . $size[$key] . '" />';
+                    $output[ "{$prop}:{$attribute}" ] = '<meta property="' . "{$prop}:{$attribute}" . '" content="' . $size[$key] . '" />';
                 }
             }
 		}
@@ -91,3 +95,13 @@ function share__wp_head() {
 
 	echo implode( "\n", apply_filters( 'share_meta', $output, $meta ) ) . "\n";
 }
+
+// wrap Share's meta data
+add_filter( 'share_meta', function( $output ) {
+    if ( $output ) {
+        array_unshift( $output, '<!-- Share plugin v1.6.4 - https://github.com/artcomventure/wordpress-plugin-share -->' );
+        $output[] = '<!-- / Share plugin -->';
+    }
+
+    return $output;
+}, 19820511 );
