@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.7.0 - 2019-02-08
+**Added**
+
+* Meta tag content filter.
+
 ## 1.6.4 - 2019-02-08
 **Fixed**
 

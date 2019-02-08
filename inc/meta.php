@@ -82,7 +82,7 @@ function share__wp_head() {
             }
 
             $prop = implode( ':', array_filter(array( $protocol, $property )) );
-            $output[ $prop ] = '<meta property="' . $prop . '" content="' . $content . '" />';
+            $output[ $prop ] = '<meta property="' . $prop . '" content="' . apply_filters( 'share_meta_content', $content, $protocol, $property ) . '" />';
 
             // add image dimensions
             if ( $prop == 'og:image' && ($size = @getimagesize( $content )) ) {
@@ -99,7 +99,7 @@ function share__wp_head() {
 // wrap Share's meta data
 add_filter( 'share_meta', function( $output ) {
     if ( $output ) {
-        array_unshift( $output, '<!-- Share plugin v1.6.4 - https://github.com/artcomventure/wordpress-plugin-share -->' );
+        array_unshift( $output, '<!-- Share plugin v1.7.0 - https://github.com/artcomventure/wordpress-plugin-share -->' );
         $output[] = '<!-- / Share plugin -->';
     }
 
